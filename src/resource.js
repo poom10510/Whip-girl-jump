@@ -1,4 +1,5 @@
 var res = {
+	Girl_png: 'res/images/Whip_Girl.png'
 };
  
 var g_resources = [];
