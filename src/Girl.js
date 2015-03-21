@@ -45,7 +45,7 @@ var Girl = cc.Sprite.extend({
      }
      this.flow+=-1;
      if(pos.y==0){
-      this.flow=100;
+      this.flow=20;
      } 
     },
     
@@ -56,6 +56,7 @@ var Girl = cc.Sprite.extend({
 	   
 	}
   var pos = this.getPosition();
+  this.flow=20;
   this.setPosition( new cc.Point( pos.x-this.speed, pos.y ) );
   /*else if( this.direction == Girl.DIR.LEFT ) {
 	    this.direction = Girl.DIR.RIGHT;
@@ -71,6 +72,7 @@ var Girl = cc.Sprite.extend({
       
   }
       var pos = this.getPosition(); 
+      this.flow=20;
        this.setPosition( new cc.Point( pos.x+this.speed, pos.y ) );
     },
      closeTo: function( obj ) {
