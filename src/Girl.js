@@ -4,6 +4,7 @@ var Girl = cc.Sprite.extend({
         this.initWithFile( 'res/images/Whip_Girl.png' );
        	this.direction = Girl.DIR.RIGHT;
         this.speed=10;
+        this.flow=10;
     },
     update: function( dt ) {
 	var pos = this.getPosition();
@@ -32,11 +33,19 @@ var Girl = cc.Sprite.extend({
            this.setPosition( new cc.Point( screenWidth, pos.y ) );
        }
        }*/
+       this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
         if ( pos.x > screenWidth ) {
-           this.setPosition( new cc.Point( 0, pos.y ) );
+           this.setPosition( new cc.Point( 0, pos.y+this.flow ) );
        }
         else if ( pos.x < 0 ) {
-           this.setPosition( new cc.Point( screenWidth, pos.y ) );
+           this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
+     }
+     else{
+       this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
+     }
+     this.flow+=-1;
+     if(pos.y==0){
+      this.flow=100;
      } 
     },
     
