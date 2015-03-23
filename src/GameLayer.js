@@ -10,6 +10,7 @@ var GameLayer = cc.LayerColor.extend({
         this.player.scheduleUpdate();
         //
        // this.addKeyboardHandlers();
+       //cocos run -p web
         this.state = GameLayer.STATES.FRONT;
  
         return true;

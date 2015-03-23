@@ -40,17 +40,17 @@ var Girl = cc.Sprite.extend({
         else if ( pos.x < 0 ) {
            this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
      }
-       else if ( pos.y < 0 ) {
-            this.flow=50;
-           this.setPosition( new cc.Point( pos.x, pos.y+100 ) );
+       else if ( pos.y <= 0 ) {
+            this.flow=30;
+           this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
      }
      else{
        this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
      }
-     this.flow+=-2;
-     if(pos.y==0){
+     this.flow+=-1;
+     /*if(pos.y==0){
       this.flow=20;
-     } 
+     } */
     },
     
    switchDirection: function() {
