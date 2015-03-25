@@ -21,15 +21,15 @@ var GameLayer = cc.LayerColor.extend({
         return true;
     },
     onKeyUp: function( e ) {
-       console.log( 'Up: ' + e );
+        console.log( 'Up: ' + e );
     },
     onKeyDown: function( e ) {
-    if ( e == cc.KEY.right) {
+        if ( e == cc.KEY.right) {
         this.player.switchDirection1();
-    }
-    else if( e == cc.KEY.left){
-    this.player.switchDirection();
-    }
+        }
+        else if( e == cc.KEY.left){
+        this.player.switchDirection();
+        }
     },
     addKeyboardHandlers: function() {
         var self = this;

@@ -9,9 +9,8 @@ var Jumpblock = cc.Sprite.extend({
         this.setPosition( new cc.Point( Math.random() * screenWidth,Math.random() * screenHeight ) );
     },
     closeTo: function( obj ) {
-	var myPos = this.getPosition();
-	var oPos = obj.getPosition();
-  	return ( ( Math.abs( myPos.x - oPos.x ) <= 16 ) &&
-		 ( Math.abs( myPos.y - oPos.y ) <= 16 ) );
+	     var myPos = this.getPosition();
+	     var oPos = obj.getPosition();
+         return ( ( Math.abs( myPos.x - oPos.x ) <= 16 ) &&( Math.abs( myPos.y - oPos.y ) <= 16 ) );
     }
 });
