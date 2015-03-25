@@ -15,6 +15,7 @@ var GameLayer = cc.LayerColor.extend({
         this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
+       //git push -u origin master
         this.state = GameLayer.STATES.FRONT;
  
         return true;
