@@ -13,6 +13,11 @@ var GameLayer = cc.LayerColor.extend({
         this.blockjump.randomPosition();
         this.addChild(this.blockjump);
         this.scheduleUpdate();
+        //
+         this.blockjump1 = new Jumpblock();
+        this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+        this.addChild(this.blockjump1);
+        this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
        //git push -u origin master

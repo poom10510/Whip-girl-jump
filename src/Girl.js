@@ -46,7 +46,7 @@ var Girl = cc.Sprite.extend({
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
           }
      
-          else if(this.checkCollision(this.game.blockjump)){
+          else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
             this.flow=25;
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
           }
