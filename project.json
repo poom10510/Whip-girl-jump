@@ -13,6 +13,7 @@
      "jsList" : [
         "src/resource.js",
         "src/GameLayer.js",
-        "src/Girl.js"
+        "src/Girl.js",
+        "src/Jumpblock.js"
     ]
 }

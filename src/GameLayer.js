@@ -4,11 +4,15 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
         this.addKeyboardHandlers();
         //
-        this.player = new Girl();
+        this.player = new Girl(this);
         this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
         this.addChild( this.player, 1 );
         this.player.scheduleUpdate();
         //
+        this.blockjump = new Jumpblock();
+        this.blockjump.randomPosition();
+        this.addChild(this.blockjump);
+        this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
         this.state = GameLayer.STATES.FRONT;

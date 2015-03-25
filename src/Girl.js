@@ -1,9 +1,10 @@
 var Girl = cc.Sprite.extend({
-    ctor: function() {
+    ctor: function(game) {
         this._super();
         this.initWithFile( 'res/images/Whip_Girl.png' );
-       	this.direction = Girl.DIR.RIGHT;
-        this.speed=10;
+       	this.game = game;
+        this.direction = Girl.DIR.RIGHT;
+        this.speed=100;
         this.flow=10;
     },
     update: function( dt ) {
@@ -41,16 +42,24 @@ var Girl = cc.Sprite.extend({
            this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
      }
        else if ( pos.y <= 0 ) {
-            this.flow=30;
+            this.flow=25;
            this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
      }
-     else{
+     
+     else if(this.checkCollision(this.game.blockjump)){
+        this.flow=25;
+           this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
+     }
+     else {
        this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
      }
      this.flow+=-1;
      /*if(pos.y==0){
       this.flow=20;
      } */
+
+     
+
     },
     
    switchDirection: function() {
@@ -87,6 +96,12 @@ var Girl = cc.Sprite.extend({
     },
     Speedup: function() {
     this.speed+=1;
+    },
+    checkCollision: function(obj){
+        var posRect = this.getBoundingBoxToWorld();
+        var objPosRect = obj.getBoundingBoxToWorld();
+        // return cc.rectIntersectsRect(posRect,objPosRect);
+       return cc.rectIntersectsRect(posRect,objPosRect);
     }
    
 });
