@@ -46,10 +46,10 @@ var Girl = cc.Sprite.extend({
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
           }
      
-          else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
+          /*else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
             this.flow=25;
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
-          }
+          }*/
           else {
             this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           }
@@ -101,6 +101,11 @@ var Girl = cc.Sprite.extend({
           var objPosRect = obj.getBoundingBoxToWorld();
           // return cc.rectIntersectsRect(posRect,objPosRect);
           return cc.rectIntersectsRect(posRect,objPosRect);
+    },
+    Jump: function(){
+            var pos = this.getPosition();
+            this.flow=25;
+            this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
     }
    
 });

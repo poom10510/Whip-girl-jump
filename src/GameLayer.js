@@ -14,6 +14,12 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.blockjump);
         this.scheduleUpdate();
         //
+        this.ncoin1 = new Ncoin();
+        //this.ncoin1.randomPosition();
+        this.ncoin1.setPosition( new cc.Point( screenWidth /4, screenHeight / 4 ) );
+        this.addChild(this.ncoin1);
+        this.scheduleUpdate();
+        //
          this.blockjump1 = new Jumpblock();
         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
         this.addChild(this.blockjump1);
@@ -47,7 +53,27 @@ var GameLayer = cc.LayerColor.extend({
                 self.onKeyUp( e );
             }
         }, this);
+    },
+     startGame: function() {
+        this.player.start();
+    },
+     update: function( dt ) {
+       //console.log("gamelayer update \n");
+        if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
+             this.player.Jump();
+        }
+        else if(this.ncoin1.closeTo(this.player)){
+              this.player.Jump();
+        }
+    },
+    endGame: function() {
+        this.player.stop();
+        
+    },
+    stop: function() {
+       this.started = false;
     }
+   
 });
  GameLayer.STATES = {
     FRONT: 1,
