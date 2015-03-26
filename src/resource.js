@@ -1,7 +1,7 @@
 var res = {
 	Girl_png: 'res/images/Whip_Girl.png',
 	jumpblock_png: 'res/images/jumpblock.png',
-	Wall_js:'res/images/Wall.png'
+	Wall_js:'res/images/Wall.png',
 	Normal_coin_png: 'res/images/Normal_coin.png' 
 };
  

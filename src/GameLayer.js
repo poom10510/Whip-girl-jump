@@ -11,24 +11,24 @@ var GameLayer = cc.LayerColor.extend({
         //
         this.blockjump = new Jumpblock();
         this.blockjump.randomPosition();
-        this.addChild(this.blockjump);
+        this.addChild(this.blockjump,1);
         this.scheduleUpdate();
         //
         this.ncoin1 = new Ncoin();
         //this.ncoin1.randomPosition();
         this.ncoin1.setPosition( new cc.Point( screenWidth /4, screenHeight / 4 ) );
-        this.addChild(this.ncoin1);
+        this.addChild(this.ncoin1,1);
         this.scheduleUpdate();
         //
          this.blockjump1 = new Jumpblock();
         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
-        this.addChild(this.blockjump1);
+        this.addChild(this.blockjump1,1);
         this.scheduleUpdate();
         //
          this.wall = new Wall();
         //this.ncoin1.randomPosition();
-        this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 4,-1 ) );
-        this.addChild(this.wall);
+        this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.addChild(this.wall,0);
         this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
