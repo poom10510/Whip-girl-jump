@@ -24,6 +24,12 @@ var GameLayer = cc.LayerColor.extend({
         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
         this.addChild(this.blockjump1);
         this.scheduleUpdate();
+        //
+         this.wall = new Wall();
+        //this.ncoin1.randomPosition();
+        this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 4,-1 ) );
+        this.addChild(this.wall);
+        this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
        //git push -u origin master
@@ -64,6 +70,7 @@ var GameLayer = cc.LayerColor.extend({
         }
         else if(this.ncoin1.closeTo(this.player)){
               this.player.Jump();
+              this.ncoin1.randomPosition();
         }
     },
     endGame: function() {
