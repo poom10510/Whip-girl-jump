@@ -6,7 +6,7 @@ var Jumpblock = cc.Sprite.extend({
     
     randomPosition: function() {
         // --- your task is to write this method
-        this.setPosition( new cc.Point( Math.random() * screenWidth,Math.random() * screenHeight ) );
+        this.setPosition( new cc.Point( Math.random() * screenWidth,Math.random() * screenHeight-50 ) );
     },
     closeTo: function( obj ) {
 	     var myPos = this.getPosition();

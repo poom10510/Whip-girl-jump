@@ -3,6 +3,7 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.addKeyboardHandlers();
+        this.score =0;
         //
         this.player = new Girl(this);
         this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
@@ -20,10 +21,18 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.ncoin1,1);
         this.scheduleUpdate();
         //
+         this.ncoin2 = new Ncoin();
+        //this.ncoin1.randomPosition();
+        this.ncoin2.setPosition( new cc.Point( screenWidth*3/4, screenHeight / 4 ) );
+        this.addChild(this.ncoin2,1);
+        this.scheduleUpdate();
+        //
          this.blockjump1 = new Jumpblock();
         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
         this.addChild(this.blockjump1,1);
         this.scheduleUpdate();
+        //
+          this.createScorebord();
         //
          this.wall = new Wall();
         //this.ncoin1.randomPosition();
@@ -36,6 +45,12 @@ var GameLayer = cc.LayerColor.extend({
         this.state = GameLayer.STATES.FRONT;
  
         return true;
+    },
+    createScorebord : function(){
+        this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.scoreLabel.setPosition( new cc.Point( 750, 550,1 ) );
+        this.addChild(this.scoreLabel,1);
+        
     },
     onKeyUp: function( e ) {
         console.log( 'Up: ' + e );
@@ -68,9 +83,18 @@ var GameLayer = cc.LayerColor.extend({
         if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
              this.player.Jump();
         }
-        else if(this.ncoin1.closeTo(this.player)){
+       this.checkcoinclash();
+    },
+    checkcoinclash: function(){
+        if(this.ncoin1.closeTo(this.player)){
               this.player.Jump();
               this.ncoin1.randomPosition();
+              this.scoreLabel.setString( ++this.score );
+        }
+        else if(this.ncoin2.closeTo(this.player)){
+              this.player.Jump();
+              this.ncoin2.randomPosition();
+              this.scoreLabel.setString( ++this.score );
         }
     },
     endGame: function() {
