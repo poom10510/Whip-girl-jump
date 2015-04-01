@@ -50,11 +50,14 @@ var GameLayer = cc.LayerColor.extend({
           this.blocks = [];
           for(var i=0;i<10;i++){
             this.blocks.push(new Ncoin());
+            console.log( 'crey ' );
           }
-          for(var j=0;j<this.blocks.size;j++){
-            this.blocks[i].randomPosition();
-            this.addChild(this.blocks[i]);
+          for(var j=0;j<this.blocks.length;j++){
+            this.blocks[j].randomPosition();
+            this.addChild(this.blocks[j],1);
+            console.log( 'cre ' );
           }
+            this.scheduleUpdate();
     },
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
@@ -111,6 +114,13 @@ var GameLayer = cc.LayerColor.extend({
               this.ncoin2.randomPosition();
               this.scoreLabel.setString( ++this.score );
         }
+         for(var j=0;j<this.blocks.length;j++){
+            if(this.blocks[j].closeTo(this.player)){
+                this.player.Jump();
+                this.blocks[j].randomPosition();
+                this.scoreLabel.setString( ++this.score );
+            }
+         }
     },
     endGame: function() {
         this.player.stop();

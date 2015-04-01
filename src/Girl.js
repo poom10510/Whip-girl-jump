@@ -4,7 +4,7 @@ var Girl = cc.Sprite.extend({
           this.initWithFile( 'res/images/Whip_Girl.png' );
        	  this.game = game;
           this.direction = Girl.DIR.RIGHT;
-          this.speed=20;
+          this.speed=30;
           this.flow=10;
     },
     update: function( dt ) {
