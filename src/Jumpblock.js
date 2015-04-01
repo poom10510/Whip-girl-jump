@@ -11,6 +11,15 @@ var Jumpblock = cc.Sprite.extend({
     closeTo: function( obj ) {
 	     var myPos = this.getPosition();
 	     var oPos = obj.getPosition();
-         return ( ( Math.abs( myPos.x - oPos.x ) <= 16 ) &&( Math.abs( myPos.y - oPos.y ) <= 16 ) );
+         return ( ( Math.abs( myPos.x - oPos.x ) <= 16 ) &&( Math.abs( myPos.y - oPos.y ) <= 90 ) );
+    },
+    onTop: function( rect ) {
+        /*var brect = this.getBoundingBoxToWorld();
+        var bminx = cc.rectGetMinX( brect );
+        var bmaxx = cc.rectGetMaxX( brect );
+        var minx = cc.rectGetMinX( rect );
+        var maxx = cc.rectGetMaxX( rect );
+        return ( minx <= bmaxx ) && ( bminx <= maxx );*/
+       // this.getPosition
     }
 });

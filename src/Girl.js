@@ -8,32 +8,7 @@ var Girl = cc.Sprite.extend({
           this.flow=10;
     },
     update: function( dt ) {
-	       var pos = this.getPosition();
-     /*  if(this.direction == 1 ) {
-	   if ( pos.y < screenHeight ) {
-           this.setPosition( new cc.Point( pos.x, pos.y + this.speed ) );
-	   } else {
-           this.setPosition( new cc.Point( pos.x, 0 ) );
-       }
-       }else if(this.direction == 2){
-       if ( pos.x < screenWidth ) {
-           this.setPosition( new cc.Point( pos.x+this.speed, pos.y ) );
-	   } else {
-           this.setPosition( new cc.Point( 0, pos.y ) );
-       }
-        }else if(this.direction == 3){
-       if ( pos.y > 0 ) {
-           this.setPosition( new cc.Point( pos.x, pos.y - this.speed ) );
-	   } else {
-           this.setPosition( new cc.Point( pos.x, screenHeight ) );
-       }
-       }else if(this.direction == 4){
-       if ( pos.x > 0 ) {
-           this.setPosition( new cc.Point( pos.x-this.speed, pos.y ) );
-	   } else {
-           this.setPosition( new cc.Point( screenWidth, pos.y ) );
-       }
-       }*/
+	        var pos = this.getPosition();
           this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           if ( pos.x > screenWidth ) {
             this.setPosition( new cc.Point( 0, pos.y+this.flow ) );
@@ -98,21 +73,34 @@ var Girl = cc.Sprite.extend({
     },
   checkCollision: function(obj){
           var posRect = this.getBoundingBoxToWorld();
+         /* var pminx = cc.rectGetMinX(posRect);
+          var pmaxx = cc.rectGetMaxX( posRect );
+          var minx = cc.rectGetMinX( obj );
+          var maxx = cc.rectGetMaxX( obj );
+          return ( minx <= pmaxx ) && ( pminx <= maxx );*/
           var objPosRect = obj.getBoundingBoxToWorld();
+          
           // return cc.rectIntersectsRect(posRect,objPosRect);
           return cc.rectIntersectsRect(posRect,objPosRect);
     },
     Jump: function(){
+           
             var pos = this.getPosition();
             this.flow=25;
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
+          
+    },
+    Stand: function(){
+            var pos = this.getPosition();
+            this.flow=0;
+            this.setPosition( new cc.Point( pos.x, pos.y ) );
     }
    
 });
  
-Girl.DIR = {
-        UP: 1,
-        RIGHT: 2,
-        DOWN: 3,
-        LEFT:4
+    Girl.DIR = {
+            UP: 1,
+            RIGHT: 2,
+            DOWN: 3,
+            LEFT:4
 };

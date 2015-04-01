@@ -9,12 +9,12 @@ var GameLayer = cc.LayerColor.extend({
         this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
         this.addChild( this.player, 1 );
         this.player.scheduleUpdate();
-        //
+        
         this.blockjump = new Jumpblock();
         this.blockjump.randomPosition();
         this.addChild(this.blockjump,1);
         this.scheduleUpdate();
-        //
+        
         this.ncoin1 = new Ncoin();
         //this.ncoin1.randomPosition();
         this.ncoin1.setPosition( new cc.Point( screenWidth /4, screenHeight / 4 ) );
@@ -25,30 +25,40 @@ var GameLayer = cc.LayerColor.extend({
         //this.ncoin1.randomPosition();
         this.ncoin2.setPosition( new cc.Point( screenWidth*3/4, screenHeight / 4 ) );
         this.addChild(this.ncoin2,1);
+        this.createNcoin();
         this.scheduleUpdate();
         //
          this.blockjump1 = new Jumpblock();
-        this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
-        this.addChild(this.blockjump1,1);
-        this.scheduleUpdate();
-        //
-          this.createScorebord();
-        //
+         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+         this.addChild(this.blockjump1,1);
+         this.scheduleUpdate();
+        
+         this.createScorebord();
+        
          this.wall = new Wall();
-        //this.ncoin1.randomPosition();
-        this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-        this.addChild(this.wall,0);
-        this.scheduleUpdate();
+         this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+         this.addChild(this.wall,0);
+         this.scheduleUpdate();
        // this.addKeyboardHandlers();
        //cocos run -p web
        //git push -u origin master
-        this.state = GameLayer.STATES.FRONT;
+         this.state = GameLayer.STATES.FRONT;
  
         return true;
     },
+    createNcoin : function(){
+          this.blocks = [];
+          for(var i=0;i<10;i++){
+            this.blocks.push(new Ncoin());
+          }
+          for(var j=0;j<this.blocks.size;j++){
+            this.blocks[i].randomPosition();
+            this.addChild(this.blocks[i]);
+          }
+    },
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( 750, 550,1 ) );
+        this.scoreLabel.setPosition( new cc.Point( screenWidth-50, screenHeight-50,1 ) );
         this.addChild(this.scoreLabel,1);
         
     },
@@ -79,11 +89,16 @@ var GameLayer = cc.LayerColor.extend({
         this.player.start();
     },
      update: function( dt ) {
-       //console.log("gamelayer update \n");
         if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
+              if(this.player.flow<=0){
              this.player.Jump();
+         }
+            //this.player.Stand();
         }
-       this.checkcoinclash();
+        /*if(this.blockjump1.closeTo(this.player)||this.blockjump.closeTo(this.player)){
+            this.player.Stand();
+        }*/
+            this.checkcoinclash();
     },
     checkcoinclash: function(){
         if(this.ncoin1.closeTo(this.player)){
@@ -106,10 +121,10 @@ var GameLayer = cc.LayerColor.extend({
     }
    
 });
- GameLayer.STATES = {
-    FRONT: 1,
-    STARTED: 2,
-    DEAD: 3
+    GameLayer.STATES = {
+        FRONT: 1,
+        STARTED: 2,
+        DEAD: 3
 };
 var StartScene = cc.Scene.extend({
     onEnter: function() {
