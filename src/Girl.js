@@ -4,7 +4,7 @@ var Girl = cc.Sprite.extend({
           this.initWithFile( 'res/images/Whip_Girl.png' );
        	  this.game = game;
           this.direction = Girl.DIR.RIGHT;
-          this.speed=30;
+          this.speed=10;
           this.flow=10;
     },
     update: function( dt ) {
@@ -16,10 +16,10 @@ var Girl = cc.Sprite.extend({
           else if ( pos.x < 0 ) {
             this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
           }
-          else if ( pos.y <= 0 ) {
+         /* else if ( pos.y <= 0 ) {
             this.flow=25;
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
-          }
+          }*/
      
           /*else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
             this.flow=25;

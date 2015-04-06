@@ -4,7 +4,10 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
         this.addKeyboardHandlers();
         this.score =0;
-        //
+        this.Playerposition = PlayerMove.NON;
+        this.leftmove=false;
+        this.rightmove=false;
+        
         this.player = new Girl(this);
         this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
         this.addChild( this.player, 1 );
@@ -15,19 +18,19 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.blockjump,1);
         this.scheduleUpdate();
         
-        this.ncoin1 = new Ncoin();
+        /*this.ncoin1 = new Ncoin();
         //this.ncoin1.randomPosition();
         this.ncoin1.setPosition( new cc.Point( screenWidth /4, screenHeight / 4 ) );
         this.addChild(this.ncoin1,1);
         this.scheduleUpdate();
-        //
+        
          this.ncoin2 = new Ncoin();
         //this.ncoin1.randomPosition();
         this.ncoin2.setPosition( new cc.Point( screenWidth*3/4, screenHeight / 4 ) );
-        this.addChild(this.ncoin2,1);
+        this.addChild(this.ncoin2,1);*/
         this.createNcoin();
         this.scheduleUpdate();
-        //
+        
          this.blockjump1 = new Jumpblock();
          this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
          this.addChild(this.blockjump1,1);
@@ -48,7 +51,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     createNcoin : function(){
           this.blocks = [];
-          for(var i=0;i<10;i++){
+          for(var i=0;i<15;i++){
             this.blocks.push(new Ncoin());
             console.log( 'crey ' );
           }
@@ -66,16 +69,25 @@ var GameLayer = cc.LayerColor.extend({
         
     },
     onKeyUp: function( e ) {
+        if ( e == cc.KEY.right||e == cc.KEY.left) {
+       this.Playerpositinop=PlayerMove.NON;
+       this.leftmove=false;
+        this.rightmove=false;
+     }
         console.log( 'Up: ' + e );
-        PlayerMove.NON;
+       
     },
     onKeyDown: function( e ) {
         if ( e == cc.KEY.right) {
-        PlayerMove.RIGHT;
+          //this.Playerposition=PlayerMove.RIGHT;
+            this.rightmove=true;
         }
         else if( e == cc.KEY.left){
-        PlayerMove.LEFT;
+          //this.Playerposition=PlayerMove.LEFT;
+            this.leftmove=true;
         }
+        //this.checkPlayerMove();
+         console.log( 'down: ' + e );
     },
     addKeyboardHandlers: function() {
         var self = this;
@@ -101,36 +113,59 @@ var GameLayer = cc.LayerColor.extend({
         }
         /*if(this.blockjump1.closeTo(this.player)||this.blockjump.closeTo(this.player)){
             this.player.Stand();
-        }*///this.checkPlayerMove();
+        }*/
+           this.checkPlayerMove();
             this.checkcoinclash();
 
     },
     checkPlayerMove: function(){
-        if(PlayerMove.RIGHT){
-          this.player.switchDirection1();
+       /* if(this.Playerposition==PlayerMove.RIGHT){
+            this.player.switchDirection1();
         }
-        else if(PlayerMove.LEFT){
-          this.player.switchDirection();
+        else if(this.Playerposition==PlayerMove.LEFT){
+            this.player.switchDirection();
         }
+        else  if(this.Playerposition==PlayerMove.NON){
+            this.player.Stand();
+        }*/
+
+      if(this.leftmove==true){
+        this.player.switchDirection();
+      }
+       if(this.rightmove==true){
+        this.player.switchDirection1();
+      }
     },
     checkcoinclash: function(){
-        if(this.ncoin1.closeTo(this.player)){
+        /*if(this.ncoin1.closeTo(this.player)){
               this.player.Jump();
               this.ncoin1.randomPosition();
               this.scoreLabel.setString( ++this.score );
+              this.randomBlock();
         }
         else if(this.ncoin2.closeTo(this.player)){
               this.player.Jump();
               this.ncoin2.randomPosition();
               this.scoreLabel.setString( ++this.score );
-        }
+              this.randomBlock();
+        }*/
          for(var j=0;j<this.blocks.length;j++){
             if(this.blocks[j].closeTo(this.player)){
                 this.player.Jump();
                 this.blocks[j].randomPosition();
                 this.scoreLabel.setString( ++this.score );
+                this.randomBlock();
             }
          }
+
+    },
+    randomBlock: function(){
+      if(this.score%10==0){
+         this.blockjump1.randomPosition();
+      }
+      else if(this.score%20==0){
+         this.blockjump.randomPosition();
+      }
     },
     endGame: function() {
         this.player.stop();
@@ -146,7 +181,7 @@ var GameLayer = cc.LayerColor.extend({
         STARTED: 2,
         DEAD: 3
 };
-    PlayerMove.STATES = {
+    PlayerMove = {
         LEFT: 1,
         RIGHT: 2,
         NON: 3
