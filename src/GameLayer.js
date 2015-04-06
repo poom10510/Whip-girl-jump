@@ -67,13 +67,14 @@ var GameLayer = cc.LayerColor.extend({
     },
     onKeyUp: function( e ) {
         console.log( 'Up: ' + e );
+        PlayerMove.NON;
     },
     onKeyDown: function( e ) {
         if ( e == cc.KEY.right) {
-        this.player.switchDirection1();
+        PlayerMove.RIGHT;
         }
         else if( e == cc.KEY.left){
-        this.player.switchDirection();
+        PlayerMove.LEFT;
         }
     },
     addKeyboardHandlers: function() {
@@ -100,8 +101,17 @@ var GameLayer = cc.LayerColor.extend({
         }
         /*if(this.blockjump1.closeTo(this.player)||this.blockjump.closeTo(this.player)){
             this.player.Stand();
-        }*/
+        }*///this.checkPlayerMove();
             this.checkcoinclash();
+
+    },
+    checkPlayerMove: function(){
+        if(PlayerMove.RIGHT){
+          this.player.switchDirection1();
+        }
+        else if(PlayerMove.LEFT){
+          this.player.switchDirection();
+        }
     },
     checkcoinclash: function(){
         if(this.ncoin1.closeTo(this.player)){
@@ -135,6 +145,11 @@ var GameLayer = cc.LayerColor.extend({
         FRONT: 1,
         STARTED: 2,
         DEAD: 3
+};
+    PlayerMove.STATES = {
+        LEFT: 1,
+        RIGHT: 2,
+        NON: 3
 };
 var StartScene = cc.Scene.extend({
     onEnter: function() {
