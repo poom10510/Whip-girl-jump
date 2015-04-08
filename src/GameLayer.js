@@ -90,6 +90,13 @@ var GameLayer = cc.LayerColor.extend({
           //this.Playerposition=PlayerMove.LEFT;
             this.leftmove=true;
         }
+        else if( e == 13){
+          this.score =0;
+           this.scoreLabel.setString( this.score );
+            this.player.flow=10;
+            this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+            //window.location.reload();
+        }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
     },

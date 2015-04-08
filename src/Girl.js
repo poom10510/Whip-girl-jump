@@ -17,9 +17,9 @@ var Girl = cc.Sprite.extend({
             this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
           }
           else if ( pos.y <= 0 ) {
-            this.flow=25;
+            //this.flow=25;
             //this.Stand();
-            this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
+            //this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
           }
      
           /*else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
@@ -42,7 +42,11 @@ var Girl = cc.Sprite.extend({
 	
 	       if ( this.direction == Girl.DIR.RIGHT ) {
 	           this.direction = Girl.DIR.LEFT;
-	   
+             this.setFlippedX(true);
+
+
+
+
 	       }
         var pos = this.getPosition();
         //this.flow=20;
@@ -58,7 +62,7 @@ var Girl = cc.Sprite.extend({
   switchDirection1: function() {
 	       if( this.direction == Girl.DIR.LEFT ) {
             this.direction = Girl.DIR.RIGHT;
-      
+           this.setFlippedX(false);
           }
           var pos = this.getPosition(); 
           // this.flow=20;
@@ -101,28 +105,29 @@ var Girl = cc.Sprite.extend({
     BombAtt: function(){
            
             var pos = this.getPosition();
-            var ran = (Math.random() *5);
+            var ran = 1+Math.floor(Math.random() *3);
             //this.flow=25;
             console.log( ran );
-            if(ran>=1&&ran<2){
+            if(ran==1){
               this.setPosition( new cc.Point( pos.x+200, pos.y ) );
             }
-            else if(ran>=2&&ran<3){
+            else if(ran==2){
               this.setPosition( new cc.Point( pos.x-200, pos.y ) ); 
             }
-            else if(ran>=3&&ran<4){
+            else if(ran==3){
               this.flow=50;
               this.setPosition( new cc.Point( pos.x, pos.y+100 ) ); 
             }
-            else if(ran>=4&&ran<5){
+            /*else if(ran==4){
               this.flow=-50;
               this.setPosition( new cc.Point( pos.x, pos.y-100 ) ); 
-            }
-            else{
+            }*/
+            /*else{
               this.flow=-50;
               this.setPosition( new cc.Point( pos.x, pos.y-100 ) ); 
-            }
+            }*/
     },
+
     Stand: function(){
             var pos = this.getPosition();
             this.flow=0;
