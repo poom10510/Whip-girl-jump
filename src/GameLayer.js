@@ -18,17 +18,8 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.blockjump,1);
         this.scheduleUpdate();
         
-        /*this.ncoin1 = new Ncoin();
-        //this.ncoin1.randomPosition();
-        this.ncoin1.setPosition( new cc.Point( screenWidth /4, screenHeight / 4 ) );
-        this.addChild(this.ncoin1,1);
-        this.scheduleUpdate();
-        
-         this.ncoin2 = new Ncoin();
-        //this.ncoin1.randomPosition();
-        this.ncoin2.setPosition( new cc.Point( screenWidth*3/4, screenHeight / 4 ) );
-        this.addChild(this.ncoin2,1);*/
         this.createNcoin();
+        this.createbomb();
         this.scheduleUpdate();
         
          this.blockjump1 = new Jumpblock();
@@ -51,7 +42,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     createNcoin : function(){
           this.blocks = [];
-          for(var i=0;i<15;i++){
+          for(var i=0;i<40;i++){
             this.blocks.push(new Ncoin());
             console.log( 'crey ' );
           }
@@ -59,6 +50,19 @@ var GameLayer = cc.LayerColor.extend({
             this.blocks[j].randomPosition();
             this.addChild(this.blocks[j],1);
             console.log( 'cre ' );
+          }
+            this.scheduleUpdate();
+    },
+    createbomb : function(){
+          this.bomb = [];
+          for(var i=0;i<4;i++){
+            this.bomb.push(new Xbomb());
+            console.log( 'creyb ' );
+          }
+          for(var j=0;j<this.bomb.length;j++){
+            this.bomb[j].randomPosition();
+            this.addChild(this.bomb[j],1);
+            console.log( 'creb ' );
           }
             this.scheduleUpdate();
     },
@@ -107,7 +111,7 @@ var GameLayer = cc.LayerColor.extend({
      update: function( dt ) {
         if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
               if(this.player.flow<=0){
-             this.player.Jump();
+             this.player.Jump2();
          }
             //this.player.Stand();
         }
@@ -116,6 +120,7 @@ var GameLayer = cc.LayerColor.extend({
         }*/
            this.checkPlayerMove();
             this.checkcoinclash();
+            this.checkbombclash();
 
     },
     checkPlayerMove: function(){
@@ -159,20 +164,34 @@ var GameLayer = cc.LayerColor.extend({
          }
 
     },
+    checkbombclash: function(){
+       var pos = this.player.getPosition();
+         for(var j=0;j<this.bomb.length;j++){
+            if(this.bomb[j].closeTo(this.player)){
+                //this.player.Jump();
+                this.player.BombAtt();
+                this.bomb[j].randomPosition();
+                this.score+=5;
+                this.scoreLabel.setString( this.score );
+                this.randomBlock();
+            }
+         }
+
+    },
     randomBlock: function(){
-      if(this.score%10==0){
-         this.blockjump1.randomPosition();
-      }
-      else if(this.score%20==0){
-         this.blockjump.randomPosition();
-      }
+         if(this.score%10==0){
+          this.blockjump1.randomPosition();
+         }
+         else if(this.score%20==0){
+          this.blockjump.randomPosition();
+         }
     },
     endGame: function() {
-        this.player.stop();
+         this.player.stop();
         
     },
     stop: function() {
-       this.started = false;
+         this.started = false;
     }
    
 });

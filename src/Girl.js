@@ -16,10 +16,11 @@ var Girl = cc.Sprite.extend({
           else if ( pos.x < 0 ) {
             this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
           }
-         /* else if ( pos.y <= 0 ) {
+          else if ( pos.y <= 0 ) {
             this.flow=25;
+            //this.Stand();
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
-          }*/
+          }
      
           /*else if(this.checkCollision(this.game.blockjump1)||this.checkCollision(this.game.blockjump)){
             this.flow=25;
@@ -89,6 +90,38 @@ var Girl = cc.Sprite.extend({
             this.flow=25;
             this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
           
+    },
+    Jump2: function(){
+           
+            var pos = this.getPosition();
+            this.flow=40;
+            this.setPosition( new cc.Point( pos.x, pos.y+80 ) );
+          
+    },
+    BombAtt: function(){
+           
+            var pos = this.getPosition();
+            var ran = (Math.random() *5);
+            //this.flow=25;
+            console.log( ran );
+            if(ran>=1&&ran<2){
+              this.setPosition( new cc.Point( pos.x+200, pos.y ) );
+            }
+            else if(ran>=2&&ran<3){
+              this.setPosition( new cc.Point( pos.x-200, pos.y ) ); 
+            }
+            else if(ran>=3&&ran<4){
+              this.flow=50;
+              this.setPosition( new cc.Point( pos.x, pos.y+100 ) ); 
+            }
+            else if(ran>=4&&ran<5){
+              this.flow=-50;
+              this.setPosition( new cc.Point( pos.x, pos.y-100 ) ); 
+            }
+            else{
+              this.flow=-50;
+              this.setPosition( new cc.Point( pos.x, pos.y-100 ) ); 
+            }
     },
     Stand: function(){
             var pos = this.getPosition();

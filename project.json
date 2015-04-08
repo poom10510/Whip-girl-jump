@@ -16,7 +16,8 @@
         "src/Girl.js",
         "src/Ncoin.js",
         "src/Jumpblock.js",
-        "src/Wall.js"
+        "src/Wall.js",
+        "src/Xbomb.js"
 
     ]
 }

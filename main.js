@@ -47,8 +47,8 @@
  *
  */
 
-var screenWidth = 1000;       // add these two constants
-var screenHeight = 800; 
+var screenWidth = 2000;       // add these two constants
+var screenHeight = 1600; 
 cc.game.onStart = function(){
      cc.view.adjustViewPort(true);
     cc.view.setDesignResolutionSize(screenWidth, screenHeight, cc.ResolutionPolicy.SHOW_ALL);    // use them here
