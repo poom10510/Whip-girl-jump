@@ -4,6 +4,7 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
         this.addKeyboardHandlers();
         this.score =0;
+        this.cont=0;
         this.Playerposition = PlayerMove.NON;
         this.leftmove=false;
         this.rightmove=false;
@@ -28,6 +29,7 @@ var GameLayer = cc.LayerColor.extend({
          this.scheduleUpdate();
         
          this.createScorebord();
+         this.createContinuebord();
         
          this.wall = new Wall();
          this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
@@ -66,10 +68,29 @@ var GameLayer = cc.LayerColor.extend({
           }
             this.scheduleUpdate();
     },
+    createItem : function(){
+      if(this.score%10 ==0&&this.score!=0){
+          //for(var i=0;i<4;i++){
+            var item = null;
+            item =new Xbomb();
+            item.randomPosition();
+            this.addChild(item,1);
+            this.bomb.push(item);
+            console.log( 'creyb ' );
+         // }
+        }
+            this.scheduleUpdate();
+    },
     createScorebord : function(){
-        this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( screenWidth-50, screenHeight-50,1 ) );
+        this.scoreLabel = cc.LabelTTF.create( 'Score: 0', 'Arial', 40 );
+        this.scoreLabel.setPosition( new cc.Point( screenWidth-100, screenHeight-50,1 ) );
         this.addChild(this.scoreLabel,1);
+        
+    },
+    createContinuebord : function(){
+        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont, 'Arial', 40 );
+        this.continueLabel.setPosition( new cc.Point( 100, screenHeight-50,1 ) );
+        this.addChild(this.continueLabel,1);
         
     },
     onKeyUp: function( e ) {
@@ -91,8 +112,8 @@ var GameLayer = cc.LayerColor.extend({
             this.leftmove=true;
         }
         else if( e == 13){
-          this.score =0;
-           this.scoreLabel.setString( this.score );
+            this.score =0;
+            this.addScore(this.score);
             this.player.flow=10;
             this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
             //window.location.reload();
@@ -122,25 +143,13 @@ var GameLayer = cc.LayerColor.extend({
          }
             //this.player.Stand();
         }
-        /*if(this.blockjump1.closeTo(this.player)||this.blockjump.closeTo(this.player)){
-            this.player.Stand();
-        }*/
+          
            this.checkPlayerMove();
             this.checkcoinclash();
-            this.checkbombclash();
+            this.checkitemclash();
 
     },
     checkPlayerMove: function(){
-       /* if(this.Playerposition==PlayerMove.RIGHT){
-            this.player.switchDirection1();
-        }
-        else if(this.Playerposition==PlayerMove.LEFT){
-            this.player.switchDirection();
-        }
-        else  if(this.Playerposition==PlayerMove.NON){
-            this.player.Stand();
-        }*/
-
       if(this.leftmove==true){
         this.player.switchDirection();
       }
@@ -149,38 +158,29 @@ var GameLayer = cc.LayerColor.extend({
       }
     },
     checkcoinclash: function(){
-        /*if(this.ncoin1.closeTo(this.player)){
-              this.player.Jump();
-              this.ncoin1.randomPosition();
-              this.scoreLabel.setString( ++this.score );
-              this.randomBlock();
-        }
-        else if(this.ncoin2.closeTo(this.player)){
-              this.player.Jump();
-              this.ncoin2.randomPosition();
-              this.scoreLabel.setString( ++this.score );
-              this.randomBlock();
-        }*/
          for(var j=0;j<this.blocks.length;j++){
             if(this.blocks[j].closeTo(this.player)){
                 this.player.Jump();
                 this.blocks[j].randomPosition();
-                this.scoreLabel.setString( ++this.score );
+                this.score+=1;
+                this.addScore(this.score);
                 this.randomBlock();
+                this.createItem();
             }
          }
 
     },
-    checkbombclash: function(){
+    checkitemclash: function(){
        var pos = this.player.getPosition();
          for(var j=0;j<this.bomb.length;j++){
             if(this.bomb[j].closeTo(this.player)){
-                //this.player.Jump();
-                this.player.BombAtt();
+                //this.player.BombAtt();
+                this.bomb[j].ItemAtt(this.player);
                 this.bomb[j].randomPosition();
                 this.score+=5;
-                this.scoreLabel.setString( this.score );
+               this.addScore(this.score);
                 this.randomBlock();
+                this.createItem();
             }
          }
 
@@ -196,6 +196,9 @@ var GameLayer = cc.LayerColor.extend({
     endGame: function() {
          this.player.stop();
         
+    },
+    addScore: function(score){
+      this.scoreLabel.setString("Score:"+ score );
     },
     stop: function() {
          this.started = false;

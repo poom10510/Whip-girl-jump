@@ -11,7 +11,6 @@ var Ncoin = cc.Sprite.extend({
     closeTo: function( obj ) {
 	     var myPos = this.getPosition();
 	     var oPos = obj.getPosition();
-         //return ((myPos.x == oPos.x)&&(myPos.y == oPos.y));
          return ( ( Math.abs( myPos.x - oPos.x ) <= 40 ) &&( Math.abs( myPos.y - oPos.y ) <= 50 ) );
     }
 });
