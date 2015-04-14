@@ -17,7 +17,8 @@
         "src/Ncoin.js",
         "src/Jumpblock.js",
         "src/Wall.js",
-        "src/Xbomb.js"
+        "src/Xbomb.js",
+        "src/Continueball.js"
 
     ]
 }

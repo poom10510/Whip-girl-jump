@@ -29,7 +29,10 @@ var GameLayer = cc.LayerColor.extend({
          this.scheduleUpdate();
         
          this.createScorebord();
+
          this.createContinuebord();
+
+         this.createContinueball();
         
          this.wall = new Wall();
          this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
@@ -93,6 +96,13 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.continueLabel,1);
         
     },
+    createContinueball : function(){
+        this.continueball = new Continueball();
+        this.continueball.randomPosition();
+        this.addChild(this.continueball,1);
+        this.scheduleUpdate();
+        
+    },
     onKeyUp: function( e ) {
         if ( e == cc.KEY.right||e == cc.KEY.left) {
        this.Playerpositinop=PlayerMove.NON;
@@ -112,14 +122,18 @@ var GameLayer = cc.LayerColor.extend({
             this.leftmove=true;
         }
         else if( e == 13){
-            this.score =0;
-            this.addScore(this.score);
-            this.player.flow=10;
-            this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+            this.ContinuePlayer();
             //window.location.reload();
         }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
+    },
+    ContinuePlayer: function(){
+      this.score =0;
+            this.addScore(this.score);
+            this.player.flow=10;
+            this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+            this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
     },
     addKeyboardHandlers: function() {
         var self = this;
@@ -163,9 +177,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.player.Jump();
                 this.blocks[j].randomPosition();
                 this.score+=1;
-                this.addScore(this.score);
-                this.randomBlock();
-                this.createItem();
+               this.itemAction();
             }
          }
 
@@ -178,12 +190,15 @@ var GameLayer = cc.LayerColor.extend({
                 this.bomb[j].ItemAtt(this.player);
                 this.bomb[j].randomPosition();
                 this.score+=5;
-               this.addScore(this.score);
-                this.randomBlock();
-                this.createItem();
+               this.itemAction();
             }
          }
 
+    },
+    itemAction: function(){
+      this.addScore(this.score);
+                this.randomBlock();
+                this.createItem();
     },
     randomBlock: function(){
          if(this.score%10==0){
