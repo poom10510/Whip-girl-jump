@@ -5,6 +5,7 @@ var GameLayer = cc.LayerColor.extend({
         this.addKeyboardHandlers();
         this.score =0;
         this.cont=0;
+        this.continuecounter=0;
         this.Playerposition = PlayerMove.NON;
         this.leftmove=false;
         this.rightmove=false;
@@ -85,20 +86,20 @@ var GameLayer = cc.LayerColor.extend({
             this.scheduleUpdate();
     },
     createScorebord : function(){
-        this.scoreLabel = cc.LabelTTF.create( 'Score: 0', 'Arial', 40 );
+        this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         this.scoreLabel.setPosition( new cc.Point( screenWidth-100, screenHeight-50,1 ) );
         this.addChild(this.scoreLabel,1);
         
     },
     createContinuebord : function(){
-        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont, 'Arial', 40 );
+        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter, 'Arial', 40 );
         this.continueLabel.setPosition( new cc.Point( 100, screenHeight-50,1 ) );
         this.addChild(this.continueLabel,1);
         
     },
     createContinueball : function(){
         this.continueball = new Continueball();
-        this.continueball.randomPosition();
+        this.continueball.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
         this.addChild(this.continueball,1);
         this.scheduleUpdate();
         
@@ -129,11 +130,14 @@ var GameLayer = cc.LayerColor.extend({
          console.log( 'down: ' + e );
     },
     ContinuePlayer: function(){
-      this.score =0;
+            //this.score =0;
+          if(this.cont>=1){
             this.addScore(this.score);
             this.player.flow=10;
             this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
             this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+            this.cont-=1;
+          }
     },
     addKeyboardHandlers: function() {
         var self = this;
@@ -153,11 +157,10 @@ var GameLayer = cc.LayerColor.extend({
      update: function( dt ) {
         if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
               if(this.player.flow<=0){
-             this.player.Jump2();
+              this.player.Jump2();
          }
-            //this.player.Stand();
         }
-          
+            this.checkcontinueItem();
            this.checkPlayerMove();
             this.checkcoinclash();
             this.checkitemclash();
@@ -195,10 +198,24 @@ var GameLayer = cc.LayerColor.extend({
          }
 
     },
+    checkcontinueItem: function(){
+      if(this.continuecounter>=20){
+        if(this.continueball.closeTo(this.player)){
+          this.continueball.randomPosition();
+          this.cont+=1;
+          this.continuecounter-=20;
+           this.addContinue();
+        }
+      }
+    },
     itemAction: function(){
-      this.addScore(this.score);
+                this.addScore(this.score);
+                //this.itemAction();
+                this.addContinue();
                 this.randomBlock();
                 this.createItem();
+                this.continuecounter+=1;
+
     },
     randomBlock: function(){
          if(this.score%10==0){
@@ -214,6 +231,10 @@ var GameLayer = cc.LayerColor.extend({
     },
     addScore: function(score){
       this.scoreLabel.setString("Score:"+ score );
+    },
+    addContinue: function(){
+      
+      this.continueLabel.setString('Cont X'+this.cont +"/"+this.continuecounter);
     },
     stop: function() {
          this.started = false;
