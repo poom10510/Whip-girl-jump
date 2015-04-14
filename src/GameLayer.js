@@ -137,6 +137,7 @@ var GameLayer = cc.LayerColor.extend({
             this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
             this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
             this.cont-=1;
+            this.addContinue();
           }
     },
     addKeyboardHandlers: function() {
@@ -180,6 +181,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.player.Jump();
                 this.blocks[j].randomPosition();
                 this.score+=1;
+                this.continuecounter+=1;
                this.itemAction();
             }
          }
@@ -193,6 +195,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.bomb[j].ItemAtt(this.player);
                 this.bomb[j].randomPosition();
                 this.score+=5;
+                this.continuecounter+=1;
                this.itemAction();
             }
          }
@@ -201,7 +204,7 @@ var GameLayer = cc.LayerColor.extend({
     checkcontinueItem: function(){
       if(this.continuecounter>=20){
         if(this.continueball.closeTo(this.player)){
-          this.continueball.randomPosition();
+          //this.continueball.randomPosition();
           this.cont+=1;
           this.continuecounter-=20;
            this.addContinue();
@@ -214,7 +217,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.addContinue();
                 this.randomBlock();
                 this.createItem();
-                this.continuecounter+=1;
+                //this.continuecounter+=1;
 
     },
     randomBlock: function(){
