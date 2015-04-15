@@ -18,7 +18,9 @@
         "src/Jumpblock.js",
         "src/Wall.js",
         "src/Xbomb.js",
+        "src/DarkGirl.js",
         "src/Continueball.js"
+
 
     ]
 }
