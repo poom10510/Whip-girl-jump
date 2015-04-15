@@ -7,6 +7,7 @@ var GameLayer = cc.LayerColor.extend({
         this.cont=0;
         this.continuecounter=0;
         this.Playerposition = PlayerMove.NON;
+        this.state = GameLayer.STATES.FRONT;
         this.leftmove=false;
         this.rightmove=false;
         
@@ -123,6 +124,9 @@ var GameLayer = cc.LayerColor.extend({
             this.leftmove=true;
         }
         else if( e == 13){
+          if(this.state == GameLayer.STATES.FRONT){
+              this.state = GameLayer.STATES.STARTED
+          }
             this.ContinuePlayer();
             //window.location.reload();
         }
@@ -156,15 +160,20 @@ var GameLayer = cc.LayerColor.extend({
         this.player.start();
     },
      update: function( dt ) {
-        if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
-              if(this.player.flow<=0){
-              this.player.Jump2();
+        if(this.state == GameLayer.STATES.FRONT){
+          this.player.Stand();
+        }
+        else if(this.state == GameLayer.STATES.STARTED){
+          if(this.player.checkCollision(this.blockjump1)||this.player.checkCollision(this.blockjump)){
+                if(this.player.flow<=0){
+                  this.player.Jump2();
          }
         }
-            this.checkcontinueItem();
-           this.checkPlayerMove();
-            this.checkcoinclash();
-            this.checkitemclash();
+                this.checkcontinueItem();
+                this.checkPlayerMove();
+                this.checkcoinclash();
+                this.checkitemclash();
+      }
 
     },
     checkPlayerMove: function(){
