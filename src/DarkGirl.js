@@ -66,7 +66,7 @@ var DarkGirl = cc.Sprite.extend({
     },
     randomPosition: function() {
         // --- your task is to write this method
-        this.setPosition( new cc.Point( 50+Math.random() * (screenWidth-100),100+Math.random() * (screenHeight-50) ) );
+        this.setPosition( new cc.Point( 50+Math.random() * (screenWidth-100),100+Math.random() * (screenHeight-200) ) );
     },
   switchDirection1: function() {
 	       //if( this.direction == Girl.DIR.LEFT ) {

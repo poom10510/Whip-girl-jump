@@ -91,6 +91,19 @@ var GameLayer = cc.LayerColor.extend({
         }
             this.scheduleUpdate();
     },
+    createmoreNcoin : function(){
+          if(this.score%100 ==0&&this.score!=0){
+          for(var i=0;i<5;i++){
+            
+            var coin = null;
+            coin = new Ncoin();
+            coin.randomPosition();
+            this.addChild(coin,1);
+            this.blocks.push(coin);
+          }
+          this.scheduleUpdate();
+        }
+    },
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         this.scoreLabel.setPosition( new cc.Point( screenWidth-100, screenHeight-50,1 ) );
@@ -183,12 +196,14 @@ var GameLayer = cc.LayerColor.extend({
                 this.checkPlayerMove();
                 this.checkcoinclash();
                 this.checkitemclash();
-                this.checkEnemystatus()
+                this.checkEnemystatus();
+               
         }
       
     },
     checkEnemystatus: function(){
       if(this.enemy.closeTo(this.player)){
+        this.player.Jump();
         this.enemy.RandomMove();
       }
       for(var j=0;j<this.blocks.length;j++){
@@ -252,7 +267,8 @@ var GameLayer = cc.LayerColor.extend({
     checkcontinueItem: function(){
       if(this.continuecounter>=20){
         if(this.continueball.closeTo(this.player)){
-          //this.continueball.randomPosition();
+            this.continueball.randomPosition();
+            this.player.Jump();
             this.cont+=1;
             this.continuecounter-=20;
             this.addContinue();
@@ -269,6 +285,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.addContinue();
                 this.randomBlock();
                 this.createItem();
+                 this.createmoreNcoin();
 
     },
     randomBlock: function(){
