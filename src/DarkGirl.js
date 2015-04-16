@@ -10,6 +10,7 @@ var DarkGirl = cc.Sprite.extend({
     },
     update: function( dt ) {
 	        var pos = this.getPosition();
+           if ( this.direction == Girl.DIR.RIGHT||this.direction == Girl.DIR.LEFT ) {
           this.Move();
           this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           if ( pos.x > screenWidth ) {
@@ -18,19 +19,19 @@ var DarkGirl = cc.Sprite.extend({
           else if ( pos.x < 0 ) {
             this.setPosition( new cc.Point( screenWidth, pos.y+this.flow ) );
           }
-          else if ( pos.y <= 0 ) {
-            //this.flow=25;
-            //this.Stand();
-            //this.setPosition( new cc.Point( pos.x, pos.y+50 ) );
-          }
+          //else if ( pos.y <= 0 ) {
+           // this.randomPosition();
+          
           else {
-
             this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           }
-          if ( this.direction == Girl.DIR.RIGHT||this.direction == Girl.DIR.LEFT ) {
+         
               this.flow+=-1;
           }
-     
+          if ( pos.y <= 0 ) {
+            this.randomPosition();
+
+     }
 
     },
     Move: function(){
@@ -63,7 +64,10 @@ var DarkGirl = cc.Sprite.extend({
 
        
     },
-    
+    randomPosition: function() {
+        // --- your task is to write this method
+        this.setPosition( new cc.Point( 50+Math.random() * (screenWidth-100),100+Math.random() * (screenHeight-50) ) );
+    },
   switchDirection1: function() {
 	       //if( this.direction == Girl.DIR.LEFT ) {
             this.direction = Girl.DIR.RIGHT;
@@ -72,11 +76,6 @@ var DarkGirl = cc.Sprite.extend({
          // var pos = this.getPosition(); 
           // this.flow=20;
          // this.setPosition( new cc.Point( pos.x+this.speed, pos.y ) );
-    },
-  closeTo: function( obj ) {
-	       var myPos = this.getPosition();
-	       var oPos = obj.getPosition();
-  	     return ( ( Math.abs( myPos.x - oPos.x ) <= 16 ) &&( Math.abs( myPos.y - oPos.y ) <= 16 ) );
     },
   Speedup: function() {
         this.speed+=1;
@@ -115,6 +114,7 @@ var DarkGirl = cc.Sprite.extend({
       else{
         this.switchDirection1(); 
       }
+      this.flow=25;
     },
     closeTo: function( obj ) {
        var myPos = this.getPosition();
