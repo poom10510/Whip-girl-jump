@@ -200,6 +200,17 @@ var GameLayer = cc.LayerColor.extend({
                this.itemAction();
             }
          }
+         this.enemyMove();
+    },
+    enemyMove: function(){
+        var pos = this.enemy.getPosition();
+       if ( this.enemy.direction == Girl.DIR.RIGHT ) {
+            this.enemy.setPosition( new cc.Point( pos.x+10, pos.y ) );
+          }
+
+          else if(this.enemy.direction == Girl.DIR.LEFT ) {
+            this.enemy.setPosition( new cc.Point( pos.x-10, pos.y ) ); 
+          }
     },
     checkPlayerMove: function(){
       if(this.leftmove==true){
