@@ -219,24 +219,23 @@ var GameLayer = cc.LayerColor.extend({
     },
     enemyMove: function(){
         var pos = this.enemy.getPosition();
-       if ( this.enemy.direction == Girl.DIR.RIGHT ) {
+        if ( this.enemy.direction == Girl.DIR.RIGHT ) {
             this.enemy.setPosition( new cc.Point( pos.x+10, pos.y ) );
-          }
-
-          else if(this.enemy.direction == Girl.DIR.LEFT ) {
+        }
+        else if(this.enemy.direction == Girl.DIR.LEFT ) {
             this.enemy.setPosition( new cc.Point( pos.x-10, pos.y ) ); 
-          }
-          if(pos.y<0){
+        }
+        if(pos.y<0){
             this.enemy.direction =Girl.DIR.UP;
-          }
+        }
     },
     checkPlayerMove: function(){
-      if(this.leftmove==true){
-        this.player.switchDirection();
-      }
+        if(this.leftmove==true){
+          this.player.switchDirection();
+        }
        if(this.rightmove==true){
-        this.player.switchDirection1();
-      }
+          this.player.switchDirection1();
+        }
     },
     checkcoinclash: function(){
          for(var j=0;j<this.blocks.length;j++){
