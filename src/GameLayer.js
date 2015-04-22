@@ -17,9 +17,15 @@ var GameLayer = cc.LayerColor.extend({
         this.player.scheduleUpdate();
 
         this.enemy = new DarkGirl(this);
-        this.enemy.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+        //this.enemy.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+        this.enemy.randomPosition();
         this.addChild( this.enemy, 1 );
         this.enemy.scheduleUpdate();
+
+        this.lifeblock = new LifeBrocking();
+        this.lifeblock.setPosition( new cc.Point( screenWidth / 2, screenHeight-100 ) );
+        this.addChild( this.lifeblock, 1 );
+        this.lifeblock.scheduleUpdate();
         
         this.blockjump = new Jumpblock();
         this.blockjump.randomPosition();
@@ -107,19 +113,19 @@ var GameLayer = cc.LayerColor.extend({
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         this.scoreLabel.setPosition( new cc.Point( screenWidth-100, screenHeight-50,1 ) );
-        this.addChild(this.scoreLabel,1);
+        this.addChild(this.scoreLabel,2);
         
     },
     createContinuebord : function(){
         this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter, 'Arial', 40 );
         this.continueLabel.setPosition( new cc.Point( 100, screenHeight-50,1 ) );
-        this.addChild(this.continueLabel,1);
+        this.addChild(this.continueLabel,2);
         
     },
     createContinueball : function(){
         this.continueball = new Continueball();
         this.continueball.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-        this.addChild(this.continueball,1);
+        this.addChild(this.continueball,2);
         this.scheduleUpdate();
         
     },
@@ -153,11 +159,20 @@ var GameLayer = cc.LayerColor.extend({
     },
     ContinuePlayer: function(){
             //this.score =0;
-          if(this.cont>=1){
+          /*if(this.cont>=1){
             this.addScore(this.score);
             this.player.flow=10;
             this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
             this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+            this.cont-=1;
+            this.addContinue();
+          }*/
+           var pos1 = this.lifeblock.getPosition();
+          if(this.cont>=1){
+            this.addScore(this.score);
+            this.player.flow=10;
+            this.player.setPosition( new cc.Point( pos1.x, pos1.y ) );
+            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
             this.cont-=1;
             this.addContinue();
           }
@@ -197,9 +212,15 @@ var GameLayer = cc.LayerColor.extend({
                 this.checkcoinclash();
                 this.checkitemclash();
                 this.checkEnemystatus();
+                this.lifeblockstocking();
                
         }
       
+    },
+    lifeblockstocking: function(){
+      var pos = this.player.getPosition();
+      var pos1 = this.lifeblock.getPosition();
+      this.lifeblock.setPosition( new cc.Point( pos.x, pos1.y ) );
     },
     checkEnemystatus: function(){
       if(this.enemy.closeTo(this.player)){

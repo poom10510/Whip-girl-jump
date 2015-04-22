@@ -19,7 +19,9 @@
         "src/Wall.js",
         "src/Xbomb.js",
         "src/DarkGirl.js",
+        "src/LifeBrocking.js",
         "src/Continueball.js"
+
 
 
     ]
