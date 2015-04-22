@@ -26,7 +26,7 @@ var Xbomb = Ncoin.extend({
               obj.setPosition( new cc.Point( pos.x-200, pos.y ) ); 
             }
             else if(ran==3){
-              obj.flow=50;
+              obj.flow=45;
               obj.setPosition( new cc.Point( pos.x, pos.y+100 ) ); 
             }
             /*else if(ran==4){

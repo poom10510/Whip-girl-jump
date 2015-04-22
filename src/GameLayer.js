@@ -85,7 +85,7 @@ var GameLayer = cc.LayerColor.extend({
             this.scheduleUpdate();
     },
     createItem : function(){
-      if(this.score%10 ==0&&this.score!=0){
+      if(this.score%20 ==0&&this.score!=0){
           //for(var i=0;i<4;i++){
             var item = null;
             item =new Xbomb();
@@ -266,6 +266,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.score+=1;
                 this.continuecounter+=1;
                this.itemAction();
+                this.randomAllitem();
             }
          }
 
@@ -298,6 +299,14 @@ var GameLayer = cc.LayerColor.extend({
             this.continuecounter-=20;
             this.addContinue();
         }
+      }
+    },
+    randomAllitem: function(){
+      if(this.score%50==0){
+      for(var j=0;j<this.bomb.length;j++){
+                this.bomb[j].randomPosition();
+            }
+
       }
     },
     itemAction: function(){
