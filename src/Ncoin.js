@@ -6,7 +6,7 @@ var Ncoin = cc.Sprite.extend({
     
     randomPosition: function() {
         // --- your task is to write this method
-        this.setPosition( new cc.Point( 50+Math.random() * (screenWidth-100),50+Math.random() * (screenHeight-100) ) );
+        this.setPosition( new cc.Point( 20+Math.random() * (screenWidth-60),50+Math.random() * (screenHeight-100) ) );
     },
     closeTo: function( obj ) {
 	     var myPos = this.getPosition();
