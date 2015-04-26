@@ -4,7 +4,10 @@ var res = {
 	Wall_js:'res/images/Wall.png',
 	Normal_coin_png: 'res/images/Normal_coin.png',
 	Xbomb_png: 'res/images/Xbomb_1.png',
-	Continue_Ball_png: 'res/images/Continue_Ball.png'
+	DarkGirl_png: 'res/images/Dark_Girl.png',
+	Continue_Ball_png: 'res/images/Continue_Ball.png',
+	Bonusball:'res/images/Bonusball.png' ,
+	LifeBrocking_png:'res/images/LifeBrocking.png'
 };
  
 var g_resources = [];

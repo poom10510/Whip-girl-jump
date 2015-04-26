@@ -5,6 +5,7 @@ var GameLayer = cc.LayerColor.extend({
         this.addKeyboardHandlers();
         this.score =0;
         this.cont=0;
+        this.contlimit=20;
         this.continuecounter=0;
         this.Playerposition = PlayerMove.NON;
         this.state = GameLayer.STATES.FRONT;
@@ -117,7 +118,7 @@ var GameLayer = cc.LayerColor.extend({
         
     },
     createContinuebord : function(){
-        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter, 'Arial', 40 );
+        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter+'/'+this.contlimit, 'Arial', 40 );
         this.continueLabel.setPosition( new cc.Point( 100, screenHeight-50,1 ) );
         this.addChild(this.continueLabel,2);
         
@@ -286,19 +287,22 @@ var GameLayer = cc.LayerColor.extend({
 
     },
     checkcontinueItem: function(){
-      if(this.continuecounter>=20){
+      if(this.continuecounter>=this.contlimit){
         if(this.continueball.closeTo(this.player)){
             this.continueball.randomPosition();
             this.player.Jump();
             this.cont+=1;
-            this.continuecounter-=20;
+            this.continuecounter-=this.contlimit;
             this.addContinue();
+            this.contlimit+=5;
         }
         else if(this.continueball.closeTo(this.enemy)){
             this.cont+=1;
-            this.continuecounter-=20;
+            this.continuecounter-=this.contlimit;
             this.addContinue();
+            this.contlimit+=5;
         }
+        
       }
     },
     randomAllitem: function(){
@@ -334,7 +338,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     addContinue: function(){
       
-      this.continueLabel.setString('Cont X'+this.cont +"/"+this.continuecounter);
+      this.continueLabel.setString('Cont X'+this.cont +"/"+this.continuecounter+"/"+this.contlimit);
     },
     stop: function() {
          this.started = false;
