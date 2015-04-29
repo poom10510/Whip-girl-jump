@@ -31,7 +31,7 @@ var Maidsweeper = cc.Sprite.extend({
           }
           if ( pos.y <= 0 ) {
             this.randomPosition();
-
+            //this.Jump2();
      }
 
     },

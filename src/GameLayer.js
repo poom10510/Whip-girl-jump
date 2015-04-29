@@ -240,6 +240,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.checkEnemystatus();
                 this.checkmaidstatus();
                 this.lifeblockstocking();
+                this.maidandenemyfight();
                
         }
       
@@ -282,13 +283,19 @@ var GameLayer = cc.LayerColor.extend({
         this.player.Jump();
         this.maid.RandomMove();
       }
-      for(var j=0;j<this.blocks.length;j++){
-            if(this.blocks[j].closeTo(this.maid)){
+      for(var j=0;j<this.bomb.length;j++){
+            if(this.bomb[j].closeTo(this.maid)){
                 this.maid.Jump();
-                this.blocks[j].randomPosition();
+                this.bomb[j].randomPosition();
                 this.score+=1;
                 this.continuecounter+=1;
                this.itemAction();
+            }
+         }
+      for(var i =0;i<this.blocks.length;i++){
+        if(this.blocks[i].closeTo(this.maid)){
+                this.maid.Jump();
+               // this.blocks.remove(this.blocks[i]);
             }
          }
          this.maidMove();
@@ -304,6 +311,16 @@ var GameLayer = cc.LayerColor.extend({
         if(pos.y<0){
             this.maid.direction =Girl.DIR.UP;
         }
+    },
+    maidandenemyfight: function(){
+      if(this.enemy.closeTo(this.maid)){
+        this.maid.Jump();
+        this.enemy.RandomMove();
+      }
+      else if(this.maid.closeTo(this.enemy)){
+        this.enemy.Jump();
+        this.maid.RandomMove();
+      }
     },
     checkPlayerMove: function(){
         if(this.leftmove==true){
@@ -351,6 +368,15 @@ var GameLayer = cc.LayerColor.extend({
             this.contlimit+=5;
         }
         else if(this.continueball.closeTo(this.enemy)){
+            this.cont+=1;
+            this.continueball.randomPosition();
+            this.continuecounter-=this.contlimit;
+            this.addContinue();
+            this.contlimit+=5;
+        }
+        else if(this.continueball.closeTo(this.maid)){
+            this.maid.Jump();
+            this.continueball.randomPosition();
             this.cont+=1;
             this.continuecounter-=this.contlimit;
             this.addContinue();
