@@ -47,7 +47,7 @@ var GameLayer = cc.LayerColor.extend({
          this.createContinuebord();
 
          this.createContinueball();
-        
+
          this.wall = new Wall();
          this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
          this.addChild(this.wall,0);
@@ -63,7 +63,7 @@ var GameLayer = cc.LayerColor.extend({
           this.blocks = [];
           for(var i=0;i<40;i++){
             this.blocks.push(new Ncoin());
-            console.log( 'crey ' );
+            console.log( '1crey ' );
           }
           for(var j=0;j<this.blocks.length;j++){
             this.blocks[j].randomPosition();
@@ -96,6 +96,15 @@ var GameLayer = cc.LayerColor.extend({
             console.log( 'creyb ' );
          // }
         }
+      var chance = 1+Math.floor(Math.random() *10);
+      if(chance==1){
+              var bonus = null;
+              bonus = new Bonusball();
+              bonus.randomPosition();
+              this.addChild(bonus,1);
+             this.bomb.push(bonus);
+
+          }
             this.scheduleUpdate();
     },
     createmoreNcoin : function(){
