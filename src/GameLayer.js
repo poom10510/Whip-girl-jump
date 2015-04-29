@@ -185,6 +185,7 @@ var GameLayer = cc.LayerColor.extend({
         }
         else if(e == 77){
             this.ContinueMaid();
+            //this.addChild(this.wall,0);
         }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
