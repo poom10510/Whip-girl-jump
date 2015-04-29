@@ -17,30 +17,24 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player, 1 );
         this.player.scheduleUpdate();
 
-        this.enemy = new DarkGirl(this);
-        //this.enemy.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-        this.enemy.randomPosition();
-        this.addChild( this.enemy, 1 );
-        this.enemy.scheduleUpdate();
+        this.creatblock();
+
+        this.createnemy();
+
+        this.createmaid();
 
         this.lifeblock = new LifeBrocking();
         this.lifeblock.setPosition( new cc.Point( screenWidth / 2, screenHeight-100 ) );
         this.addChild( this.lifeblock, 1 );
         this.lifeblock.scheduleUpdate();
         
-        this.blockjump = new Jumpblock();
-        this.blockjump.randomPosition();
-        this.addChild(this.blockjump,1);
-        this.scheduleUpdate();
+        
         
         this.createNcoin();
         this.createbomb();
         this.scheduleUpdate();
         
-         this.blockjump1 = new Jumpblock();
-         this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
-         this.addChild(this.blockjump1,1);
-         this.scheduleUpdate();
+        
         
          this.createScorebord();
 
@@ -58,6 +52,28 @@ var GameLayer = cc.LayerColor.extend({
          this.state = GameLayer.STATES.FRONT;
  
         return true;
+    },
+    createnemy: function(){
+      this.enemy = new DarkGirl(this);
+      this.enemy.randomPosition();
+      this.addChild( this.enemy, 1 );
+      this.enemy.scheduleUpdate();
+    },
+    createmaid: function(){
+      this.maid = new Maidsweeper(this);
+      //this.maid = new DarkGirl(this);
+      this.maid.randomPosition();
+      this.addChild(this.maid,1);
+      this.maid.scheduleUpdate();
+    },
+    creatblock: function(){
+      this.blockjump = new Jumpblock();
+      this.blockjump.randomPosition();
+      this.addChild(this.blockjump,1);
+      this.blockjump1 = new Jumpblock();
+      this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+      this.addChild(this.blockjump1,1);
+      this.scheduleUpdate();
     },
     createNcoin : function(){
           this.blocks = [];
@@ -96,7 +112,7 @@ var GameLayer = cc.LayerColor.extend({
             console.log( 'creyb ' );
          // }
         }
-      var chance = 1+Math.floor(Math.random() *10);
+      var chance = 1+Math.floor(Math.random() *50);
       if(chance==1){
               var bonus = null;
               bonus = new Bonusball();
@@ -128,7 +144,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     createContinuebord : function(){
         this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter+'/'+this.contlimit, 'Arial', 40 );
-        this.continueLabel.setPosition( new cc.Point( 100, screenHeight-50,1 ) );
+        this.continueLabel.setPosition( new cc.Point( 200, screenHeight-50,1 ) );
         this.addChild(this.continueLabel,2);
         
     },
@@ -222,6 +238,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.checkcoinclash();
                 this.checkitemclash();
                 this.checkEnemystatus();
+                this.checkmaidstatus();
                 this.lifeblockstocking();
                
         }
@@ -258,6 +275,34 @@ var GameLayer = cc.LayerColor.extend({
         }
         if(pos.y<0){
             this.enemy.direction =Girl.DIR.UP;
+        }
+    },
+    checkmaidstatus: function(){
+      if(this.maid.closeTo(this.player)){
+        this.player.Jump();
+        this.maid.RandomMove();
+      }
+      for(var j=0;j<this.blocks.length;j++){
+            if(this.blocks[j].closeTo(this.maid)){
+                this.maid.Jump();
+                this.blocks[j].randomPosition();
+                this.score+=1;
+                this.continuecounter+=1;
+               this.itemAction();
+            }
+         }
+         this.maidMove();
+    },
+    maidMove: function(){
+        var pos = this.maid.getPosition();
+        if ( this.maid.direction == Girl.DIR.RIGHT ) {
+            this.maid.setPosition( new cc.Point( pos.x+10, pos.y ) );
+        }
+        else if(this.maid.direction == Girl.DIR.LEFT ) {
+            this.maid.setPosition( new cc.Point( pos.x-10, pos.y ) ); 
+        }
+        if(pos.y<0){
+            this.maid.direction =Girl.DIR.UP;
         }
     },
     checkPlayerMove: function(){

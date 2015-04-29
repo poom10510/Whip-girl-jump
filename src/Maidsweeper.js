@@ -1,8 +1,8 @@
-var DarkGirl = cc.Sprite.extend({
+var Maidsweeper = cc.Sprite.extend({
     ctor: function(game) {
           this._super();
-          this.initWithFile( 'res/images/Dark_Girl.png' );
-       	  this.game = game;
+          this.initWithFile( 'res/images/Maidsweeper.png' );
+       	 this.game = game;
          // this.direction = Girl.DIR.UP;
          this.direction = Girl.DIR.UP;
           this.speed=10;
@@ -10,7 +10,7 @@ var DarkGirl = cc.Sprite.extend({
           this.flow=0;
     },
     update: function( dt ) {
-	        var pos = this.getPosition();
+          var pos = this.getPosition();
            if ( this.direction == Girl.DIR.RIGHT||this.direction == Girl.DIR.LEFT ) {
           this.Move();
           this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
@@ -46,22 +46,22 @@ var DarkGirl = cc.Sprite.extend({
           }
     },
     switchDirection: function() {
-	
-	       //if ( this.direction == Girl.DIR.RIGHT ) {
-	           this.direction = Girl.DIR.LEFT;
+  
+         //if ( this.direction == Girl.DIR.RIGHT ) {
+             this.direction = Girl.DIR.LEFT;
              this.setFlippedX(true);
 
 
 
 
-	       //}
+         //}
         //var pos = this.getPosition();
         //this.flow=20;
         //this.setPosition( new cc.Point( pos.x-this.speed, pos.y ) );
       /*else if( this.direction == Girl.DIR.LEFT ) {
-	     this.direction = Girl.DIR.RIGHT;
-	    
-	     }*/
+       this.direction = Girl.DIR.RIGHT;
+      
+       }*/
 
        
     },
@@ -70,7 +70,7 @@ var DarkGirl = cc.Sprite.extend({
         this.setPosition( new cc.Point( 50+Math.random() * (screenWidth-100),100+Math.random() * (screenHeight-200) ) );
     },
     switchDirection1: function() {
-	       //if( this.direction == Girl.DIR.LEFT ) {
+         //if( this.direction == Girl.DIR.LEFT ) {
             this.direction = Girl.DIR.RIGHT;
            this.setFlippedX(false);
          // }
