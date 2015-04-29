@@ -180,6 +180,12 @@ var GameLayer = cc.LayerColor.extend({
             this.ContinuePlayer();
             //window.location.reload();
         }
+        else if(e ==82){
+          window.location.reload();
+        }
+        else if(e == 77){
+            this.ContinueMaid();
+        }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
     },
@@ -203,6 +209,18 @@ var GameLayer = cc.LayerColor.extend({
             this.addContinue();
           }
     },
+    ContinueMaid: function(){
+        var pos1 = this.lifeblock.getPosition();
+          if(this.cont>=1){
+            this.addScore(this.score);
+            this.maid.flow=10;
+            this.maid.setPosition( new cc.Point( pos1.x, pos1.y ) );
+            this.maid.RandomMove();
+            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+            this.cont-=1;
+            this.addContinue();
+          }
+        },
     addKeyboardHandlers: function() {
         var self = this;
         cc.eventManager.addListener({
@@ -295,7 +313,6 @@ var GameLayer = cc.LayerColor.extend({
       for(var i =0;i<this.blocks.length;i++){
         if(this.blocks[i].closeTo(this.maid)){
                 this.maid.Jump();
-               // this.blocks.remove(this.blocks[i]);
             }
          }
          this.maidMove();
