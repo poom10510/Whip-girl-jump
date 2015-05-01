@@ -34,7 +34,7 @@ var GameLayer = cc.LayerColor.extend({
         this.createbomb();
         this.scheduleUpdate();
         
-        
+        this.createWall();
         
          this.createScorebord();
 
@@ -42,16 +42,22 @@ var GameLayer = cc.LayerColor.extend({
 
          this.createContinueball();
 
-         this.wall = new Wall();
-         this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-         this.addChild(this.wall,0);
-         this.scheduleUpdate();
+         
        // this.addKeyboardHandlers();
        //cocos run -p web
        //git push -u origin master
          this.state = GameLayer.STATES.FRONT;
  
         return true;
+    },
+    createWall: function(){
+         this.wall = new Wall();
+         this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+         this.wall2 = new Wall2();
+         this.wall2.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+         this.addChild(this.wall,0);
+         this.statewall=1;
+         this.scheduleUpdate();
     },
     createnemy: function(){
       this.enemy = new DarkGirl(this);
@@ -181,10 +187,15 @@ var GameLayer = cc.LayerColor.extend({
             //window.location.reload();
         }
         else if(e ==82){
-          window.location.reload();
+          //window.location.reload();
+          cc.game.restart();
         }
         else if(e == 77){
             this.ContinueMaid();
+            //this.addChild(this.wall,0);
+        }
+        else if(e == 78){
+            this.ContinueEnemy();
             //this.addChild(this.wall,0);
         }
         //this.checkPlayerMove();
@@ -222,6 +233,18 @@ var GameLayer = cc.LayerColor.extend({
             this.addContinue();
           }
         },
+    ContinueEnemy: function(){
+        var pos1 = this.lifeblock.getPosition();
+          if(this.cont>=1){
+            this.addScore(this.score);
+            this.enemy.flow=10;
+            this.enemy.setPosition( new cc.Point( pos1.x, pos1.y ) );
+            this.enemy.RandomMove();
+            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+            this.cont-=1;
+            this.addContinue();
+          }
+    },
     addKeyboardHandlers: function() {
         var self = this;
         cc.eventManager.addListener({
@@ -260,6 +283,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.checkmaidstatus();
                 this.lifeblockstocking();
                 this.maidandenemyfight();
+                this.Changewall();
                
         }
       
@@ -426,6 +450,23 @@ var GameLayer = cc.LayerColor.extend({
          else if(this.score%20==0){
           this.blockjump.randomPosition();
          }
+    },
+    Changewall: function(){
+      var pos1 = this.player.getPosition();
+      if(pos1.y<0){
+        if(this.statewall==1){
+           this.removeChild(this.wall);
+            this.addChild(this.wall2,0);
+            this.statewall=2;
+        }
+      }
+      else{
+        if(this.statewall==2){
+           this.removeChild(this.wall2);
+            this.addChild(this.wall,0);
+            this.statewall=1;
+        }
+      }
     },
     endGame: function() {
          this.player.stop();

@@ -17,6 +17,7 @@
         "src/Ncoin.js",
         "src/Jumpblock.js",
         "src/Wall.js",
+        "src/Wall2.js",
         "src/Xbomb.js",
         "src/DarkGirl.js",
         "src/LifeBrocking.js",

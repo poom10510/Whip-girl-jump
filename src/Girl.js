@@ -27,9 +27,7 @@ var Girl = cc.Sprite.extend({
           if(this.flow>-40){
           this.flow+=-1;
         }
-        /*if(pos.y==0){
-            this.flow=20;
-          } */
+        
 
      
 
