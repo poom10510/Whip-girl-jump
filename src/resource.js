@@ -7,6 +7,7 @@ var res = {
 	DarkGirl_png: 'res/images/Dark_Girl.png',
 	Continue_Ball_png: 'res/images/Continue_Ball.png',
 	Bonusball:'res/images/Bonusball.png' ,
+	Maidsweeper'res/images/Maidsweeper.png' ,
 	LifeBrocking_png:'res/images/LifeBrocking.png'
 };
  
