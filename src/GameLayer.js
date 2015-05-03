@@ -9,6 +9,7 @@ var GameLayer = cc.LayerColor.extend({
         this.continuecounter=0;
         this.Playerposition = PlayerMove.NON;
         this.state = GameLayer.STATES.FRONT;
+        this.startstate = GameLayer.STATES.FRONT;
         this.leftmove=false;
         this.rightmove=false;
         
@@ -57,9 +58,16 @@ var GameLayer = cc.LayerColor.extend({
          this.wall2.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
          this.addChild(this.wall,0);
          this.statewall=1;
+         
+         this.startscreen = new WallStart();
+         this.startscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+          this.addChild(this.startscreen,3);
+
+          this.endscreen = new WallEnded();
          this.scheduleUpdate();
     },
     createnemy: function(){
+
       this.enemy = new DarkGirl(this);
       this.enemy.randomPosition();
       this.addChild( this.enemy, 1 );
@@ -155,9 +163,14 @@ var GameLayer = cc.LayerColor.extend({
         
     },
     createContinueball : function(){
-        this.continueball = new Continueball();
+        /*this.continueball = new Continueball();
         this.continueball.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-        this.addChild(this.continueball,2);
+        this.addChild(this.continueball,2);*/
+        this.continueball=[];
+        var con=new Continueball();
+        con.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+        this.addChild(con,2);
+        this.continueball.push(con);
         this.scheduleUpdate();
         
     },
@@ -171,6 +184,19 @@ var GameLayer = cc.LayerColor.extend({
        
     },
     onKeyDown: function( e ) {
+      if(this.startstate == GameLayer.STATES.FRONT){
+        if( e == 71){
+            this.startstate = GameLayer.STATES.STARTED;
+            this.ChangeScreen();
+        }
+      }
+      else if(this.startstate == GameLayer.STATES.DEAD){
+        if(e ==82){
+          //window.location.reload();
+          cc.game.restart();
+        }
+      }
+      else{
         if ( e == cc.KEY.right) {
           //this.Playerposition=PlayerMove.RIGHT;
             this.rightmove=true;
@@ -198,8 +224,25 @@ var GameLayer = cc.LayerColor.extend({
             this.ContinueEnemy();
             //this.addChild(this.wall,0);
         }
+        else if( e == 67){
+            this.createmoreContinueball();
+        }
+        else if( e == 71){
+            this.startstate = GameLayer.STATES.DEAD;
+            this.ChangeScreen();
+        }
+      }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
+    },
+    ChangeScreen: function(){
+      if(this.startstate == GameLayer.STATES.STARTED){
+        this.removeChild(this.startscreen);
+      }
+      else if(this.startstate == GameLayer.STATES.DEAD){
+        this.endscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.addChild(this.endscreen,3);
+      }
     },
     ContinuePlayer: function(){
             //this.score =0;
@@ -244,6 +287,15 @@ var GameLayer = cc.LayerColor.extend({
             this.cont-=1;
             this.addContinue();
           }
+    },
+     createmoreContinueball : function(){
+        if(this.cont>=1){
+          var con=new Continueball();
+          con.randomPosition();
+          this.addChild(con,2);
+          this.continueball.push(con);
+          this.scheduleUpdate();
+        }
     },
     addKeyboardHandlers: function() {
         var self = this;
@@ -401,46 +453,53 @@ var GameLayer = cc.LayerColor.extend({
     },
     checkcontinueItem: function(){
       if(this.continuecounter>=this.contlimit){
-        if(this.continueball.closeTo(this.player)){
-            this.continueball.randomPosition();
-            this.player.Jump();
-            this.cont+=1;
-            this.continuecounter-=this.contlimit;
-            this.addContinue();
-            this.contlimit+=5;
-        }
-        else if(this.continueball.closeTo(this.enemy)){
-            this.cont+=1;
-            this.continueball.randomPosition();
-            this.continuecounter-=this.contlimit;
-            this.addContinue();
-            this.contlimit+=5;
-        }
-        else if(this.continueball.closeTo(this.maid)){
-            this.maid.Jump();
-            this.continueball.randomPosition();
-            this.cont+=1;
-            this.continuecounter-=this.contlimit;
-            this.addContinue();
-            this.contlimit+=5;
-        }
+        for(var i = 0; i<this.continueball.length;i++){
+          if(this.continueball[i].closeTo(this.player)){
+              this.continueball[i].randomPosition();
+              this.player.Jump();
+              this.cont+=1;
+              this.continuecounter-=this.contlimit;
+              this.addContinue();
+              this.contlimit+=5;
+          }
+          else if(this.continueball[i].closeTo(this.enemy)){
+              this.cont+=1;
+              this.continueball[i].randomPosition();
+              this.continuecounter-=this.contlimit;
+              this.addContinue();
+              this.contlimit+=5;
+          }
+          else if(this.continueball[i].closeTo(this.maid)){
+              this.maid.Jump();
+              this.continueball[i].randomPosition();
+              this.cont+=1;
+              this.continuecounter-=this.contlimit;
+              this.addContinue();
+              this.contlimit+=5;
+          }
         
       }
+    }
     },
     randomAllitem: function(){
       if(this.score%50==0){
-      for(var j=0;j<this.bomb.length;j++){
+        for(var j=0;j<this.bomb.length;j++){
                 this.bomb[j].randomPosition();
             }
 
       }
+      if(this.score%100==0){
+         for(var j=0;j<this.blocks.length;j++){
+                this.blocks[j].randomPosition();
+            }
+       }
     },
     itemAction: function(){
                 this.addScore(this.score);
                 this.addContinue();
                 this.randomBlock();
                 this.createItem();
-                 this.createmoreNcoin();
+                this.createmoreNcoin();
 
     },
     randomBlock: function(){

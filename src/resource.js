@@ -9,6 +9,8 @@ var res = {
 	Continue_Ball_png: 'res/images/Continue_Ball.png',
 	Bonusball:'res/images/Bonusball.png' ,
 	Maidsweeper:'res/images/Maidsweeper.png' ,
+	WallStart:'res/images/WallStart.png',
+	WallEnded:'res/images/WallEnded.png',
 	LifeBrocking_png:'res/images/LifeBrocking.png'
 };
  
