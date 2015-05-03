@@ -25,6 +25,7 @@
         "src/Maidsweeper.js",
         "src/WallStart.js",
         "src/WallEnded.js",
+        "src/Deadball.js",
         "src/Continueball.js"
 
 

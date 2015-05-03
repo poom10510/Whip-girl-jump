@@ -24,9 +24,9 @@ var Girl = cc.Sprite.extend({
           else {
             this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           }
-          if(this.flow>-40){
+          //if(this.flow>-40){
           this.flow+=-1;
-        }
+        //}
         
 
      

@@ -12,6 +12,8 @@ var GameLayer = cc.LayerColor.extend({
         this.startstate = GameLayer.STATES.FRONT;
         this.leftmove=false;
         this.rightmove=false;
+        this.alive = true;
+        this.dead = [];
         
         this.player = new Girl(this);
         this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
@@ -150,6 +152,17 @@ var GameLayer = cc.LayerColor.extend({
           this.scheduleUpdate();
         }
     },
+    createDeadball : function(){
+          
+          if(this.score%100 ==0&&this.score!=0){
+            var ball = null;
+            ball = new Deadball();
+            ball.randomPosition();
+            this.addChild(ball,1);
+            this.dead.push(ball);
+            this.scheduleUpdate();
+        }
+    },
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         this.scoreLabel.setPosition( new cc.Point( screenWidth-300, screenHeight-50,1 ) );
@@ -193,7 +206,6 @@ var GameLayer = cc.LayerColor.extend({
       }
       else if(this.startstate == GameLayer.STATES.DEAD){
         if(e ==82){
-          //window.location.reload();
           cc.game.restart();
         }
       }
@@ -213,10 +225,10 @@ var GameLayer = cc.LayerColor.extend({
             this.ContinuePlayer();
             //window.location.reload();
         }
-        else if(e ==82){
+        /*else if(e ==82){
           //window.location.reload();
           cc.game.restart();
-        }
+        }*/
         else if(e == 77){
             this.ContinueMaid();
             //this.addChild(this.wall,0);
@@ -230,7 +242,7 @@ var GameLayer = cc.LayerColor.extend({
         }
         else if( e == 71){
             this.startstate = GameLayer.STATES.DEAD;
-            this.ChangeScreen();
+            this.Gameend();
         }
       }
         //this.checkPlayerMove();
@@ -240,13 +252,18 @@ var GameLayer = cc.LayerColor.extend({
       if(this.startstate == GameLayer.STATES.STARTED){
         this.removeChild(this.startscreen);
       }
-      else if(this.startstate == GameLayer.STATES.DEAD){
-        this.endscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-        this.addChild(this.endscreen,3);
-        var score = this.score;
-        this.scoreLabel2.setString("Score:"+ score );
-        this.scoreLabel2.setPosition( new cc.Point( 200, 200) );
-        this.addChild(this.scoreLabel2,3);
+    },
+    Gameend: function(){
+      if(this.startstate == GameLayer.STATES.DEAD){
+        if(this.alive){
+          this.endscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+          this.addChild(this.endscreen,3);
+          var score = this.score;
+          this.scoreLabel2.setString("Score:"+ score );
+          this.scoreLabel2.setPosition( new cc.Point( 200, 200) );
+          this.addChild(this.scoreLabel2,3);
+          this.alive = false;
+        }
       }
     },
     ContinuePlayer: function(){
@@ -342,6 +359,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.lifeblockstocking();
                 this.maidandenemyfight();
                 this.Changewall();
+                this.checkDeadclose();
                
         }
       
@@ -487,6 +505,21 @@ var GameLayer = cc.LayerColor.extend({
       }
     }
     },
+    checkDeadclose: function(){
+      for (var i = 0; i < this.dead.length; i++) {
+          if(this.dead[i].closeTo(this.player)){
+            if(this.cont>=1){
+              this.cont-=1;
+              this.player.Jump();
+              this.dead[i].randomPosition();  
+            }
+            else{
+              this.startstate = GameLayer.STATES.DEAD;
+              this.Gameend();
+            }            
+          }
+      }
+    },
     randomAllitem: function(){
       if(this.score%50==0){
         for(var j=0;j<this.bomb.length;j++){
@@ -506,6 +539,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.randomBlock();
                 this.createItem();
                 this.createmoreNcoin();
+                this.createDeadball();
 
     },
     randomBlock: function(){
