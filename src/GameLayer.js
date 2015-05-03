@@ -152,8 +152,9 @@ var GameLayer = cc.LayerColor.extend({
     },
     createScorebord : function(){
         this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( screenWidth-100, screenHeight-50,1 ) );
+        this.scoreLabel.setPosition( new cc.Point( screenWidth-300, screenHeight-50,1 ) );
         this.addChild(this.scoreLabel,2);
+         this.scoreLabel2 = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         
     },
     createContinuebord : function(){
@@ -242,6 +243,10 @@ var GameLayer = cc.LayerColor.extend({
       else if(this.startstate == GameLayer.STATES.DEAD){
         this.endscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
         this.addChild(this.endscreen,3);
+        var score = this.score;
+        this.scoreLabel2.setString("Score:"+ score );
+        this.scoreLabel2.setPosition( new cc.Point( 200, 200) );
+        this.addChild(this.scoreLabel2,3);
       }
     },
     ContinuePlayer: function(){
@@ -294,7 +299,8 @@ var GameLayer = cc.LayerColor.extend({
           con.randomPosition();
           this.addChild(con,2);
           this.continueball.push(con);
-          this.scheduleUpdate();
+          this.cont-=1;
+          this.addContinue();
         }
     },
     addKeyboardHandlers: function() {
