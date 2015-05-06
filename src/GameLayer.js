@@ -13,6 +13,7 @@ var GameLayer = cc.LayerColor.extend({
         this.leftmove=false;
         this.rightmove=false;
         this.alive = true;
+        this.tu = false;
         this.dead = [];
         
         this.player = new Girl(this);
@@ -64,6 +65,9 @@ var GameLayer = cc.LayerColor.extend({
          this.startscreen = new WallStart();
          this.startscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
           this.addChild(this.startscreen,3);
+
+          this.tutorialwall = new Tutorial();
+          this.tutorialwall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
 
           this.endscreen = new WallEnded();
          this.scheduleUpdate();
@@ -244,9 +248,22 @@ var GameLayer = cc.LayerColor.extend({
             this.startstate = GameLayer.STATES.DEAD;
             this.Gameend();
         }
+        else if( e == 84){
+            this.OpenTutorial();
+        }
       }
         //this.checkPlayerMove();
          console.log( 'down: ' + e );
+    },
+    OpenTutorial: function(){
+      if(this.tu){
+        this.removeChild(this.tutorialwall);
+        this.tu=false;
+      }
+      else{
+        this.addChild(this.tutorialwall,4);
+        this.tu=true;
+      }
     },
     ChangeScreen: function(){
       if(this.startstate == GameLayer.STATES.STARTED){

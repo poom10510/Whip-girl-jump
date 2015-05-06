@@ -26,6 +26,7 @@
         "src/WallStart.js",
         "src/WallEnded.js",
         "src/Deadball.js",
+        "src/Tuturial.js",
         "src/Continueball.js"
 
 

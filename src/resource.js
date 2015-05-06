@@ -12,6 +12,7 @@ var res = {
 	WallStart:'res/images/WallStart.png',
 	WallEnded:'res/images/WallEnded.png',
 	Deadball:'res/images/Deadball.png',
+	Tuturial: 'res/images/Tuturial.png',
 	LifeBrocking_png:'res/images/LifeBrocking.png'
 };
  
