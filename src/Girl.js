@@ -6,6 +6,7 @@ var Girl = cc.Sprite.extend({
           this.direction = Girl.DIR.RIGHT;
           this.speed=10;
           this.flow=10;
+          this.fall=-1;
     },
     update: function( dt ) {
 	        var pos = this.getPosition();
@@ -25,7 +26,7 @@ var Girl = cc.Sprite.extend({
             this.setPosition( new cc.Point( pos.x, pos.y+this.flow ) );
           }
           //if(this.flow>-40){
-          this.flow+=-1;
+          this.flow+=this.fall;
         //}
         
 

@@ -8,6 +8,7 @@ var Maidsweeper = DarkGirl.extend({
           this.speed=10;
           //this.flow=10;
           this.flow=0;
+          this.fall=-1;
     }
    
 });

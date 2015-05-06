@@ -8,6 +8,7 @@ var DarkGirl = cc.Sprite.extend({
           this.speed=10;
           //this.flow=10;
           this.flow=0;
+          this.fall=-1;
     },
     update: function( dt ) {
 	        var pos = this.getPosition();
@@ -28,7 +29,7 @@ var DarkGirl = cc.Sprite.extend({
           }
          
           //if(this.flow>-40){
-            this.flow+=-1;
+            this.flow+=this.fall;
           //}
         }
         if ( pos.y <= 0 ) {

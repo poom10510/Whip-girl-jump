@@ -6,6 +6,7 @@ var GameLayer = cc.LayerColor.extend({
         this.score =0;
         this.cont=0;
         this.contlimit=20;
+        this.speed = 10;
         this.continuecounter=0;
         this.Playerposition = PlayerMove.NON;
         this.state = GameLayer.STATES.FRONT;
@@ -14,6 +15,7 @@ var GameLayer = cc.LayerColor.extend({
         this.rightmove=false;
         this.alive = true;
         this.tu = false;
+        this.statespeddup=false;
         this.dead = [];
         
         this.player = new Girl(this);
@@ -181,9 +183,6 @@ var GameLayer = cc.LayerColor.extend({
         
     },
     createContinueball : function(){
-        /*this.continueball = new Continueball();
-        this.continueball.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-        this.addChild(this.continueball,2);*/
         this.continueball=[];
         var con=new Continueball();
         con.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
@@ -198,6 +197,9 @@ var GameLayer = cc.LayerColor.extend({
        this.leftmove=false;
         this.rightmove=false;
      }
+         if( e == 32){
+             this.statespeddup=false;
+        }
         console.log( 'Up: ' + e );
        
     },
@@ -215,11 +217,9 @@ var GameLayer = cc.LayerColor.extend({
       }
       else{
         if ( e == cc.KEY.right) {
-          //this.Playerposition=PlayerMove.RIGHT;
             this.rightmove=true;
         }
         else if( e == cc.KEY.left){
-          //this.Playerposition=PlayerMove.LEFT;
             this.leftmove=true;
         }
         else if( e == 13){
@@ -229,30 +229,28 @@ var GameLayer = cc.LayerColor.extend({
             this.ContinuePlayer();
             //window.location.reload();
         }
-        /*else if(e ==82){
-          //window.location.reload();
-          cc.game.restart();
-        }*/
         else if(e == 77){
             this.ContinueMaid();
-            //this.addChild(this.wall,0);
         }
         else if(e == 78){
             this.ContinueEnemy();
-            //this.addChild(this.wall,0);
         }
         else if( e == 67){
             this.createmoreContinueball();
         }
         else if( e == 71){
+          if(this.statewall==2){
             this.startstate = GameLayer.STATES.DEAD;
             this.Gameend();
+          }
         }
         else if( e == 84){
             this.OpenTutorial();
         }
+        else if( e == 32){
+             this.statespeddup=true;
+        }
       }
-        //this.checkPlayerMove();
          console.log( 'down: ' + e );
     },
     OpenTutorial: function(){
@@ -284,21 +282,11 @@ var GameLayer = cc.LayerColor.extend({
       }
     },
     ContinuePlayer: function(){
-            //this.score =0;
-          /*if(this.cont>=1){
-            this.addScore(this.score);
-            this.player.flow=10;
-            this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-            this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
-            this.cont-=1;
-            this.addContinue();
-          }*/
            var pos1 = this.lifeblock.getPosition();
           if(this.cont>=1){
             this.addScore(this.score);
             this.player.flow=10;
             this.player.setPosition( new cc.Point( pos1.x, pos1.y ) );
-            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
             this.cont-=1;
             this.addContinue();
           }
@@ -310,7 +298,6 @@ var GameLayer = cc.LayerColor.extend({
             this.maid.flow=10;
             this.maid.setPosition( new cc.Point( pos1.x, pos1.y ) );
             this.maid.RandomMove();
-            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
             this.cont-=1;
             this.addContinue();
           }
@@ -322,7 +309,6 @@ var GameLayer = cc.LayerColor.extend({
             this.enemy.flow=10;
             this.enemy.setPosition( new cc.Point( pos1.x, pos1.y ) );
             this.enemy.RandomMove();
-            //this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
             this.cont-=1;
             this.addContinue();
           }
@@ -377,6 +363,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.maidandenemyfight();
                 this.Changewall();
                 this.checkDeadclose();
+                this.Speedup();
                
         }
       
@@ -405,10 +392,10 @@ var GameLayer = cc.LayerColor.extend({
     enemyMove: function(){
         var pos = this.enemy.getPosition();
         if ( this.enemy.direction == Girl.DIR.RIGHT ) {
-            this.enemy.setPosition( new cc.Point( pos.x+10, pos.y ) );
+            this.enemy.setPosition( new cc.Point( pos.x+this.speed, pos.y ) );
         }
         else if(this.enemy.direction == Girl.DIR.LEFT ) {
-            this.enemy.setPosition( new cc.Point( pos.x-10, pos.y ) ); 
+            this.enemy.setPosition( new cc.Point( pos.x-this.speed, pos.y ) ); 
         }
         if(pos.y<0){
             this.enemy.direction =Girl.DIR.UP;
@@ -438,10 +425,10 @@ var GameLayer = cc.LayerColor.extend({
     maidMove: function(){
         var pos = this.maid.getPosition();
         if ( this.maid.direction == Girl.DIR.RIGHT ) {
-            this.maid.setPosition( new cc.Point( pos.x+10, pos.y ) );
+            this.maid.setPosition( new cc.Point( pos.x+this.speed, pos.y ) );
         }
         else if(this.maid.direction == Girl.DIR.LEFT ) {
-            this.maid.setPosition( new cc.Point( pos.x-10, pos.y ) ); 
+            this.maid.setPosition( new cc.Point( pos.x-this.speed, pos.y ) ); 
         }
         if(pos.y<0){
             this.maid.direction =Girl.DIR.UP;
@@ -482,7 +469,6 @@ var GameLayer = cc.LayerColor.extend({
        var pos = this.player.getPosition();
          for(var j=0;j<this.bomb.length;j++){
             if(this.bomb[j].closeTo(this.player)){
-                //this.player.BombAtt();
                 this.bomb[j].ItemAtt(this.player);
                 this.bomb[j].randomPosition();
                 this.score+=5;
@@ -529,6 +515,7 @@ var GameLayer = cc.LayerColor.extend({
               this.cont-=1;
               this.player.Jump();
               this.dead[i].randomPosition();  
+              this.addContinue();
             }
             else{
               this.startstate = GameLayer.STATES.DEAD;
@@ -545,9 +532,12 @@ var GameLayer = cc.LayerColor.extend({
 
       }
       if(this.score%100==0){
-         for(var j=0;j<this.blocks.length;j++){
-                this.blocks[j].randomPosition();
+         for(var i=0;i<this.blocks.length;i++){
+                this.blocks[i].randomPosition();
             }
+          for(var k = 0; k<this.continueball.length;k++){
+                this.continueball[k].randomPosition();
+          }
        }
     },
     itemAction: function(){
@@ -566,6 +556,16 @@ var GameLayer = cc.LayerColor.extend({
          else if(this.score%20==0){
           this.blockjump.randomPosition();
          }
+    },
+    Speedup: function(){
+      if(this.statespeddup==true){
+        this.speed=20;
+        this.player.speed=20;
+      }
+      else{
+        this.speed=10;
+        this.player.speed=10;
+      }
     },
     Changewall: function(){
       var pos1 = this.player.getPosition();
