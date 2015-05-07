@@ -1,27 +1,12 @@
 var GameLayer = cc.LayerColor.extend({
     init: function() {
-        this._super( new cc.Color( 127, 127, 127, 255 ) );
+       this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.addKeyboardHandlers();
-        this.score =0;
-        this.cont=0;
-        this.contlimit=20;
-        this.speed = 10;
-        this.continuecounter=0;
-        this.Playerposition = PlayerMove.NON;
-        this.state = GameLayer.STATES.FRONT;
-        this.startstate = GameLayer.STATES.FRONT;
-        this.leftmove=false;
-        this.rightmove=false;
-        this.alive = true;
-        this.tu = false;
-        this.statespeddup=false;
-        this.dead = [];
-        
-        this.player = new Girl(this);
-        this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
-        this.addChild( this.player, 1 );
-        this.player.scheduleUpdate();
+
+       this.creatVar();
+         
+       this.createPlayer();
 
         this.creatblock();
 
@@ -56,6 +41,30 @@ var GameLayer = cc.LayerColor.extend({
  
         return true;
     },
+    createPlayer:function(){
+       this.player = new Girl(this);
+        this.player.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+        this.addChild( this.player, 1 );
+        this.player.scheduleUpdate();
+    },
+    creatVar: function(){
+       
+        this.score =0;
+        this.cont=0;
+        this.contlimit=20;
+        this.speed = 10;
+        this.continuecounter=0;
+        this.Playerposition = PlayerMove.NON;
+        this.state = GameLayer.STATES.FRONT;
+        this.startstate = GameLayer.STATES.FRONT;
+        this.leftmove=false;
+        this.rightmove=false;
+        this.alive = true;
+        this.tu = false;
+        this.statespeddup=false;
+        this.openbonue=false;
+        this.dead = [];
+    },
     createWall: function(){
          this.wall = new Wall();
          this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
@@ -71,6 +80,9 @@ var GameLayer = cc.LayerColor.extend({
           this.tutorialwall = new Tutorial();
           this.tutorialwall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
 
+          this.bonuswall = new WallBonus();
+          this.bonuswall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+
           this.endscreen = new WallEnded();
          this.scheduleUpdate();
     },
@@ -83,7 +95,6 @@ var GameLayer = cc.LayerColor.extend({
     },
     createmaid: function(){
       this.maid = new Maidsweeper(this);
-      //this.maid = new DarkGirl(this);
       this.maid.randomPosition();
       this.addChild(this.maid,1);
       this.maid.scheduleUpdate();
@@ -185,7 +196,7 @@ var GameLayer = cc.LayerColor.extend({
     createContinueball : function(){
         this.continueball=[];
         var con=new Continueball();
-        con.setPosition( new cc.Point( screenWidth / 2, screenHeight / 2 ) );
+        con.randomPosition();
         this.addChild(con,2);
         this.continueball.push(con);
         this.scheduleUpdate();
@@ -251,6 +262,9 @@ var GameLayer = cc.LayerColor.extend({
              this.statespeddup=true;
         }
       }
+        if(e == 83){
+          this.OpenBonus();
+        }
          console.log( 'down: ' + e );
     },
     OpenTutorial: function(){
@@ -262,6 +276,19 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(this.tutorialwall,4);
         this.tu=true;
       }
+    },
+    OpenBonus: function(){
+      if(this.score>1000){
+         if(this.openbonue){
+            this.removeChild(this.bonuswall);
+            this.openbonue=false;
+         }
+         else{
+            this.addChild(this.bonuswall,5); 
+            this.openbonue=true;
+         }
+         
+        }
     },
     ChangeScreen: function(){
       if(this.startstate == GameLayer.STATES.STARTED){

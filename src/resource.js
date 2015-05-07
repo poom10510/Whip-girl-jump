@@ -13,6 +13,7 @@ var res = {
 	WallEnded:'res/images/WallEnded.png',
 	Deadball:'res/images/Deadball.png',
 	Tuturial: 'res/images/Tuturial.png',
+	WallBonus:'res/images/Bonuswallpaper.png',
 	LifeBrocking_png:'res/images/LifeBrocking.png'
 };
  
