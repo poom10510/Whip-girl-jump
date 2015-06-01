@@ -66,76 +66,76 @@ var GameLayer = cc.LayerColor.extend({
         this.dead = [];
     },
     createWall: function(){
-         this.wall = new Wall();
-         this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-         this.wall2 = new Wall2();
-         this.wall2.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-         this.addChild(this.wall,0);
-         this.statewall=1;
+        this.wall = new Wall();
+        this.wall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.wall2 = new Wall2();
+        this.wall2.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.addChild(this.wall,0);
+        this.statewall=1;
          
-         this.startscreen = new WallStart();
-         this.startscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
-          this.addChild(this.startscreen,3);
+        this.startscreen = new WallStart();
+        this.startscreen.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.addChild(this.startscreen,3);
 
-          this.tutorialwall = new Tutorial();
-          this.tutorialwall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.tutorialwall = new Tutorial();
+        this.tutorialwall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
 
-          this.bonuswall = new WallBonus();
-          this.bonuswall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
+        this.bonuswall = new WallBonus();
+        this.bonuswall.setPosition( new cc.Point( screenWidth /2, screenHeight / 2) );
 
-          this.endscreen = new WallEnded();
-         this.scheduleUpdate();
+        this.endscreen = new WallEnded();
+        this.scheduleUpdate();
     },
     createnemy: function(){
 
-      this.enemy = new DarkGirl(this);
-      this.enemy.randomPosition();
-      this.addChild( this.enemy, 1 );
-      this.enemy.scheduleUpdate();
+        this.enemy = new DarkGirl(this);
+        this.enemy.randomPosition();
+        this.addChild( this.enemy, 1 );
+        this.enemy.scheduleUpdate();
     },
     createmaid: function(){
-      this.maid = new Maidsweeper(this);
-      this.maid.randomPosition();
-      this.addChild(this.maid,1);
-      this.maid.scheduleUpdate();
+        this.maid = new Maidsweeper(this);
+        this.maid.randomPosition();
+        this.addChild(this.maid,1);
+        this.maid.scheduleUpdate();
     },
     creatblock: function(){
-      this.blockjump = new Jumpblock();
-      this.blockjump.randomPosition();
-      this.addChild(this.blockjump,1);
-      this.blockjump1 = new Jumpblock();
-      this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
-      this.addChild(this.blockjump1,1);
-      this.scheduleUpdate();
+        this.blockjump = new Jumpblock();
+        this.blockjump.randomPosition();
+        this.addChild(this.blockjump,1);
+        this.blockjump1 = new Jumpblock();
+        this.blockjump1.setPosition( new cc.Point( screenWidth / 2, screenHeight / 3 ) );
+        this.addChild(this.blockjump1,1);
+        this.scheduleUpdate();
     },
     createNcoin : function(){
-          this.blocks = [];
-          for(var i=0;i<40;i++){
+        this.blocks = [];
+        for(var i=0;i<40;i++){
             this.blocks.push(new Ncoin());
             console.log( '1crey ' );
-          }
-          for(var j=0;j<this.blocks.length;j++){
+        }
+        for(var j=0;j<this.blocks.length;j++){
             this.blocks[j].randomPosition();
             this.addChild(this.blocks[j],1);
             console.log( 'cre ' );
-          }
-            this.scheduleUpdate();
+        }
+        this.scheduleUpdate();
     },
     createbomb : function(){
-          this.bomb = [];
-          for(var i=0;i<4;i++){
+        this.bomb = [];
+        for(var i=0;i<4;i++){
             this.bomb.push(new Xbomb());
             console.log( 'creyb ' );
-          }
-          for(var j=0;j<this.bomb.length;j++){
+        }
+        for(var j=0;j<this.bomb.length;j++){
             this.bomb[j].randomPosition();
             this.addChild(this.bomb[j],1);
             console.log( 'creb ' );
-          }
-            this.scheduleUpdate();
+        }
+        this.scheduleUpdate();
     },
     createItem : function(){
-      if(this.score%20 ==0&&this.score!=0){
+        if(this.score%20 ==0&&this.score!=0){
           //for(var i=0;i<4;i++){
             var item = null;
             item =new Xbomb();
@@ -145,8 +145,8 @@ var GameLayer = cc.LayerColor.extend({
             console.log( 'creyb ' );
          // }
         }
-      var chance = 1+Math.floor(Math.random() *50);
-      if(chance==1){
+        var chance = 1+Math.floor(Math.random() *50);
+        if(chance==1){
               var bonus = null;
               bonus = new Bonusball();
               bonus.randomPosition();
@@ -154,7 +154,7 @@ var GameLayer = cc.LayerColor.extend({
              this.bomb.push(bonus);
 
           }
-            this.scheduleUpdate();
+          this.scheduleUpdate();
     },
     createmoreNcoin : function(){
           if(this.score%100 ==0&&this.score!=0){
@@ -181,37 +181,37 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     createScorebord : function(){
-        this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( screenWidth-300, screenHeight-50,1 ) );
-        this.addChild(this.scoreLabel,2);
-         this.scoreLabel2 = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
+          this.scoreLabel = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
+          this.scoreLabel.setPosition( new cc.Point( screenWidth-300, screenHeight-50,1 ) );
+          this.addChild(this.scoreLabel,2);
+          this.scoreLabel2 = cc.LabelTTF.create( 'Score:'+this.score, 'Arial', 40 );
         
     },
     createContinuebord : function(){
-        this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter+'/'+this.contlimit, 'Arial', 40 );
-        this.continueLabel.setPosition( new cc.Point( 200, screenHeight-50,1 ) );
-        this.addChild(this.continueLabel,2);
+          this.continueLabel = cc.LabelTTF.create( 'Cont X'+this.cont+'/'+this.continuecounter+'/'+this.contlimit, 'Arial', 40 );
+          this.continueLabel.setPosition( new cc.Point( 200, screenHeight-50,1 ) );
+          this.addChild(this.continueLabel,2);
         
     },
     createContinueball : function(){
-        this.continueball=[];
-        var con=new Continueball();
-        con.randomPosition();
-        this.addChild(con,2);
-        this.continueball.push(con);
-        this.scheduleUpdate();
+          this.continueball=[];
+          var con=new Continueball();
+          con.randomPosition();
+          this.addChild(con,2);
+          this.continueball.push(con);
+          this.scheduleUpdate();
         
     },
     onKeyUp: function( e ) {
-        if ( e == cc.KEY.right||e == cc.KEY.left) {
-       this.Playerpositinop=PlayerMove.NON;
-       this.leftmove=false;
-        this.rightmove=false;
-     }
+          if ( e == cc.KEY.right||e == cc.KEY.left) {
+            this.Playerpositinop=PlayerMove.NON;
+            this.leftmove=false;
+            this.rightmove=false;
+          }
          if( e == 32){
-             this.statespeddup=false;
-        }
-        console.log( 'Up: ' + e );
+            this.statespeddup=false;
+          }
+          console.log( 'Up: ' + e );
        
     },
     onKeyDown: function( e ) {

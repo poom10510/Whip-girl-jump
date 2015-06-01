@@ -39,10 +39,6 @@ var Girl = cc.Sprite.extend({
 	       if ( this.direction == Girl.DIR.RIGHT ) {
 	           this.direction = Girl.DIR.LEFT;
              this.setFlippedX(true);
-
-
-
-
 	       }
         var pos = this.getPosition();
         //this.flow=20;
